@@ -1,39 +1,65 @@
 package nl.novi.backendwhattoeat.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
+import nl.novi.backendwhattoeat.repository.MenuRepository;
+import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.model.Menu;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
+import java.util.Optional;
+
+
 
 @RestController
 @RequestMapping("/menus")
 public class MenuController {
 
+    private final MenuRepository menuRepository;
 
-    @GetMapping
-    public ResponseEntity<List<Menu>> getAllMenus() {
-        final Menu broodjes = new Menu("broodjes");
-        final Menu eitjes = new Menu("eitjes");
-        final List<Menu> allMenus = List.of(broodjes, eitjes);
-        return ResponseEntity.ok(allMenus);
+    @Autowired
+    public MenuController(MenuRepository menuRepository) {
+        this.menuRepository = menuRepository;
     }
 
-    @GetMapping("{title}")
-    public ResponseEntity<Menu> getMenuByTitle(@PathVariable String title) {
-        if ("broodjes".equals(title)) {
-            return ResponseEntity.ok(new Menu("broodjes"));
-        } else if ("eitjes".equals(title)) {
-            return ResponseEntity.ok(new Menu("eitjes"));
+    @GetMapping
+    public ResponseEntity<List<Menu>> getAllMenus(@RequestParam(value = "title", required = false) String title) {
+        List<Menu> menus;
+        if (title == null){
+            menus = menuRepository.findAll();
+            return ResponseEntity.ok().body(menus);
+        }else {
+            menus = menuRepository.findAllMenusByTitleEqualsIgnoreCase(title);
+        }
+        return ResponseEntity.ok().body(menus);
+    }
+    @GetMapping("{id}")
+    public ResponseEntity<Menu> getMenuById(@PathVariable("id") Long id) {
+
+        Optional<Menu> menu = menuRepository.findById(id);
+
+        if(menu.isEmpty()){
+            throw new RecordNotFoundException("Er is geen gerecht gevonden met nummer: " + id);
         } else {
-            return ResponseEntity.notFound().build();
+            Menu menu1 = menu.get();
+            return ResponseEntity.ok().body(menu1);
         }
     }
     @PostMapping()
-    public ResponseEntity<Menu> createMenu(@RequestBody Menu newMenu){
-        System.out.println("Er is een nieuw gerecht met de titel: " + newMenu.getTitle());
-        return ResponseEntity.created(null).build();
+    public ResponseEntity<Menu> addMenu(@RequestBody Menu menu){
+
+        menuRepository.save(menu);
+        return ResponseEntity.created(null).body(menu);
     }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deleteMenu(@PathVariable("id") Long id) {
+
+        menuRepository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
+
+    }
+
 }
