@@ -1,4 +1,4 @@
-package nl.novi.backendwhattoeat.model;
+package nl.novi.backendwhattoeat.models;
 
 import javax.persistence.*;
 
@@ -8,13 +8,12 @@ public class Menu {
     @GeneratedValue
     Long id;
 
-    @Column
     private String title;
     private String cuisineType;
     private String healthLabel;
     private String dietLabel;
     private Boolean hasPhoto;
-    private int rating;
+    private Integer rating;
 
     public Long getId() {
         return id;
@@ -64,11 +63,11 @@ public class Menu {
         this.hasPhoto = hasPhoto;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 }

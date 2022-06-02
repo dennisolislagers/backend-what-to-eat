@@ -1,8 +1,8 @@
-package nl.novi.backendwhattoeat.controller;
+package nl.novi.backendwhattoeat.controllers;
 
-import nl.novi.backendwhattoeat.repository.MenuRepository;
+import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
-import nl.novi.backendwhattoeat.model.Menu;
+import nl.novi.backendwhattoeat.models.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,4 +62,23 @@ public class MenuController {
 
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateMenu(@PathVariable Long id, @RequestBody Menu newMenu) {
+        Optional<Menu> menu = menuRepository.findById(id);
+
+        if (menu.isEmpty()){
+           throw new RecordNotFoundException("Er is geen gerecht met nummer" + id);
+        }else {
+            Menu menu1 = menu.get();
+            menu1.setId(menu1.getId());
+            menu1.setTitle(menu1.getTitle());
+            menu1.setCuisineType(menu1.getCuisineType());
+            menu1.setHealthLabel(menu1.getHealthLabel());
+            menu1.setDietLabel(menu1.getDietLabel());
+            menu1.setHasPhoto(menu1.getHasPhoto());
+            menu1.setRating(menu1.getRating());
+            menuRepository.save(menu1);
+            return ResponseEntity.ok().body(menu1);
+        }
+    }
 }

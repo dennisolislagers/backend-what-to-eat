@@ -1,4 +1,4 @@
-package nl.novi.backendwhattoeat.controller;
+package nl.novi.backendwhattoeat.controllers;
 
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
