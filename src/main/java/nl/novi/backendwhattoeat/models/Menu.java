@@ -3,10 +3,11 @@ package nl.novi.backendwhattoeat.models;
 import javax.persistence.*;
 
 @Entity
+
 public class Menu {
     @Id
-    @GeneratedValue
-    Long id;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
     private String cuisineType;

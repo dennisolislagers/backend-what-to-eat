@@ -2,7 +2,7 @@ package nl.novi.backendwhattoeat.services;
 
 import nl.novi.backendwhattoeat.Dtos.MenuDto;
 import nl.novi.backendwhattoeat.Dtos.MenuInputDto;
-import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
+import nl.novi.backendwhattoeat.exceptions.MenuNotFoundException;
 import nl.novi.backendwhattoeat.models.Menu;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class MenuService {
                 Menu recipe = menuRepository.findById(id).get();
                 return transferToDto(recipe);
             } else {
-                throw new RecordNotFoundException("geen menu gevonden");
+                throw new MenuNotFoundException("geen menu gevonden");
         }
     }
 
@@ -81,7 +81,7 @@ public class MenuService {
 
             } else {
 
-                throw new  RecordNotFoundException("geen menu gevonden");
+                throw new MenuNotFoundException("geen menu gevonden");
 
             }
 

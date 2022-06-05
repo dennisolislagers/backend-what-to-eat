@@ -1,15 +1,15 @@
 package nl.novi.backendwhattoeat.exceptions;
 
-public class RecordNotFoundException extends RuntimeException {
+public class MenuNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public RecordNotFoundException() {
+    public MenuNotFoundException() {
 
         super();
 
     }
 
-    public RecordNotFoundException(String message) {
+    public MenuNotFoundException(String message) {
 
         super(message);
 

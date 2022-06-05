@@ -1,7 +1,7 @@
 package nl.novi.backendwhattoeat.controllers;
 
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
-import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
+import nl.novi.backendwhattoeat.exceptions.MenuNotFoundException;
 import nl.novi.backendwhattoeat.models.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/menus")
+@RequestMapping("menus")
 public class MenuController {
 
     private final MenuRepository menuRepository;
@@ -41,7 +41,7 @@ public class MenuController {
         Optional<Menu> menu = menuRepository.findById(id);
 
         if(menu.isEmpty()){
-            throw new RecordNotFoundException("Er is geen gerecht gevonden met nummer: " + id);
+            throw new MenuNotFoundException("Er is geen gerecht gevonden met nummer: " + id);
         } else {
             Menu menu1 = menu.get();
             return ResponseEntity.ok().body(menu1);
@@ -67,7 +67,7 @@ public class MenuController {
         Optional<Menu> menu = menuRepository.findById(id);
 
         if (menu.isEmpty()){
-           throw new RecordNotFoundException("Er is geen gerecht met nummer" + id);
+           throw new MenuNotFoundException("Er is geen gerecht met nummer" + id);
         }else {
             Menu menu1 = menu.get();
             menu1.setId(menu1.getId());
