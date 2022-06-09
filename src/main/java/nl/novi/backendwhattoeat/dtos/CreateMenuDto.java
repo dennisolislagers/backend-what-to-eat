@@ -1,6 +1,6 @@
-package nl.novi.backendwhattoeat.Dtos;
+package nl.novi.backendwhattoeat.dtos;
 
-public class MenuDto {
+public class CreateMenuDto {
     private Long id;
     private String title;
     private String cuisineType;
@@ -9,15 +9,14 @@ public class MenuDto {
     private Boolean hasPhoto;
     private Integer rating;
 
-    public MenuDto(){
+    public CreateMenuDto(){
     }
 
-    public MenuDto(Long id, String title, String cuisineType, String healthLabel, String dietLabel, Boolean hasPhoto, Integer rating){
+    public CreateMenuDto(Long id, String title, String cuisineType, String healthLabel, String dietLabel, Boolean hasPhoto, Integer rating){
         this.id = id;
         this.title = title;
         this.cuisineType = cuisineType;
         this.healthLabel = healthLabel;
-        this.dietLabel = dietLabel;
         this.hasPhoto = hasPhoto;
         this.rating = rating;
     }
@@ -76,5 +75,12 @@ public class MenuDto {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+
+    public Integer getCalories() {
+    }
+
+    public Integer getPortions() {
     }
 }

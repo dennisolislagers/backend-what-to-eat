@@ -1,17 +1,16 @@
 package nl.novi.backendwhattoeat.exceptions;
 
-public class MenuNotFoundException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
+
     private static final long serialVersionUID = 1L;
 
-    public MenuNotFoundException() {
+    public BadRequestException() {
 
         super();
-
     }
 
-    public MenuNotFoundException(String message) {
+    public BadRequestException(String message) {
 
         super(message);
-
     }
 }

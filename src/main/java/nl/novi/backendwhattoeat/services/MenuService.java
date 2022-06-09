@@ -1,10 +1,12 @@
 package nl.novi.backendwhattoeat.services;
 
-import nl.novi.backendwhattoeat.Dtos.MenuDto;
-import nl.novi.backendwhattoeat.Dtos.MenuInputDto;
-import nl.novi.backendwhattoeat.exceptions.MenuNotFoundException;
+import nl.novi.backendwhattoeat.dtos.MenuDto;
+import nl.novi.backendwhattoeat.dtos.CreateMenuDto;
+import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Menu;
+import nl.novi.backendwhattoeat.repositories.CommentRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
+import nl.novi.backendwhattoeat.repositories.RatingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -16,19 +18,47 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    public MenuService(MenuRepository menuRepository){
+    private final CommentRepository commentRepository;
+
+    private final CommentService commentService;
+
+    private final RatingService ratingService;
+
+    private final RatingRepository ratingRepository;
+
+    public MenuService(MenuRepository menuRepository,
+                       CommentRepository commentRepository,
+                       CommentService commentService,
+                       RatingRepository ratingRepository,
+                       RatingService ratingService){
         this.menuRepository = menuRepository;
+        this.commentRepository = commentRepository;
+        this.commentService = commentService;
+        this.ratingService = ratingService;
+        this.ratingRepository = ratingRepository;
     }
 
     public List<MenuDto> getAllMenus() {
-        List<Menu> recipeList = menuRepository.findAll();
-        List<MenuDto> recipeDtoList = new ArrayList<>();
+        List<Menu> menuList = menuRepository.findAll();
+        return transferMenuListToDtoList(menuList);
+    }
 
-        for (Menu recipe : recipeList) {
-            MenuDto dto = transferToDto(recipe);
-            recipeDtoList.add(dto);
+    public List<MenuDto> getAllMenusByTitle(String title) {
+        List<Menu> menuList = menuRepository.findAllMenusByTitleEqualsIgnoreCase(title);
+        return transferMenuListToDtoList(menuList);
+    }
+
+    public List<MenuDto> transferMenuListToDtoList(List<Menu> menus){
+        List<MenuDto> menuDtoList = new ArrayList<>();
+
+        for(Menu menu : menus) {
+            MenuDto dto = transferToDto(menu);
+            if(menu.getComment() != null){
+                dto.setCommentDto(commentService.transferToDto(menu.getComment()));
+            }
+            menuDtoList.add(dto);
         }
-        return recipeDtoList;
+        return menuDtoList;
     }
 
     public List<MenuDto> getAllMenusByCuisineType(String cuisineType) {
@@ -48,11 +78,11 @@ public class MenuService {
                 Menu recipe = menuRepository.findById(id).get();
                 return transferToDto(recipe);
             } else {
-                throw new MenuNotFoundException("geen menu gevonden");
+                throw new RecordNotFoundException("geen menu gevonden");
         }
     }
 
-    public MenuDto addMenu(MenuInputDto dto) {
+    public MenuDto addMenu(CreateMenuDto dto) {
 
         Menu recipe = transferToMenu(dto);
         menuRepository.save(recipe);
@@ -66,7 +96,7 @@ public class MenuService {
 
     }
 
-        public MenuDto updateMenu(Long id, MenuInputDto inputDto) {
+        public MenuDto updateMenu(Long id, CreateMenuDto inputDto) {
 
             if (menuRepository.findById(id).isPresent()){
 
@@ -81,21 +111,23 @@ public class MenuService {
 
             } else {
 
-                throw new MenuNotFoundException("geen menu gevonden");
+                throw new RecordNotFoundException("geen menu gevonden");
 
             }
 
         }
 
-        public Menu transferToMenu(MenuInputDto dto){
+        public Menu transferToMenu(CreateMenuDto createMenu){
         var menu = new Menu();
 
-        menu.setTitle(dto.getTitle());
-        menu.setCuisineType(dto.getCuisineType());
-        menu.setHealthLabel(dto.getHealthLabel());
-        menu.setDietLabel(dto.getDietLabel());
-        menu.setHasPhoto(dto.getHasPhoto());
-        menu.setRating(dto.getRating());
+        menu.setTitle(createMenu.getTitle());
+        menu.setCuisineType(createMenu.getCuisineType());
+        menu.setHealthLabel(createMenu.getHealthLabel());
+        menu.setDietLabel(createMenu.getDietLabel());
+        menu.setCalories(createMenu.getCalories());
+        menu.setPortions(createMenu.getPortions());
+        menu.setHasPhoto(createMenu.getHasPhoto());
+
 
         return menu;
     }
@@ -109,7 +141,8 @@ public class MenuService {
         dto.setHealthLabel(menu.getHealthLabel());
         dto.setDietLabel(menu.getDietLabel());
         dto.setHasPhoto(menu.getHasPhoto());
-        dto.setRating(menu.getRating());
+        dto.setCalories(menu.getCalories());
+        dto.setPortions(menu.getPortions());
 
         return dto;
     }

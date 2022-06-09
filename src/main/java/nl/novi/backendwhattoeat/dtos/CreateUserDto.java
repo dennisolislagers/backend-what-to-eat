@@ -1,4 +1,4 @@
-package nl.novi.backendwhattoeat.Dtos;
+package nl.novi.backendwhattoeat.dtos;
 
 public class CreateUserDto {
 

@@ -1,6 +1,7 @@
 package nl.novi.backendwhattoeat.controllers;
 
-import nl.novi.backendwhattoeat.exceptions.MenuNotFoundException;
+
+import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,11 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(value = MenuNotFoundException.class)
-    public ResponseEntity<Object> exception(MenuNotFoundException exception) {
+    @ExceptionHandler(value = RecordNotFoundException.class)
+    public ResponseEntity<Object> exception(RecordNotFoundException exception) {
 
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-
     }
+
+
 
 }

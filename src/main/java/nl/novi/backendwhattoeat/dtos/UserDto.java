@@ -1,6 +1,6 @@
-package nl.novi.backendwhattoeat.Dtos;
+package nl.novi.backendwhattoeat.dtos;
 
-public class UserCreatedDto {
+public class UserDto {
 
     private Long id;
     private String username;

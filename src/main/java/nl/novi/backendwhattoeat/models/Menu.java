@@ -13,8 +13,9 @@ public class Menu {
     private String cuisineType;
     private String healthLabel;
     private String dietLabel;
+    private Integer portions;
+    private Integer calories;
     private Boolean hasPhoto;
-    private Integer rating;
 
     public Long getId() {
         return id;
@@ -64,11 +65,24 @@ public class Menu {
         this.hasPhoto = hasPhoto;
     }
 
-    public Integer getRating() {
-        return rating;
+    public Integer getPortions() {
+        return portions;
     }
 
-    public void setRating(Integer rating) {
-        this.rating = rating;
+    public void setPortions(Integer portions) {
+        this.portions = portions;
+    }
+
+    public Integer getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Integer calories) {
+        this.calories = calories;
+    }
+
+    public Comment getComment() {
+        return null;
     }
 }
+
