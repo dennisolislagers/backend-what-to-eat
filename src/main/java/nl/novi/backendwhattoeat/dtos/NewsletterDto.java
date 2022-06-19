@@ -1,7 +1,10 @@
 package nl.novi.backendwhattoeat.dtos;
 
-public class CommentDto {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
+public class NewsletterDto {
 
     public Long id;
     public String title;
@@ -37,6 +40,8 @@ public class CommentDto {
     }
 
     public void setPostTime(String postTime) {
+        LocalDate localDate = LocalDate.now();
+        postTime = localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
         this.postTime = postTime;
     }
 }

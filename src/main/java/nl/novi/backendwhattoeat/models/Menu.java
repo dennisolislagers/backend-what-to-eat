@@ -1,13 +1,16 @@
 package nl.novi.backendwhattoeat.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
-
 public class Menu {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     private String title;
     private String cuisineType;
@@ -81,8 +84,6 @@ public class Menu {
         this.calories = calories;
     }
 
-    public Comment getComment() {
-        return null;
-    }
 }
+
 

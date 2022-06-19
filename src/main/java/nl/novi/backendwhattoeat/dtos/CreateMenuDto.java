@@ -8,6 +8,8 @@ public class CreateMenuDto {
     private String dietLabel;
     private Boolean hasPhoto;
     private Integer rating;
+    private Integer calories;
+    private Integer portions;
 
     public CreateMenuDto(){
     }
@@ -17,8 +19,11 @@ public class CreateMenuDto {
         this.title = title;
         this.cuisineType = cuisineType;
         this.healthLabel = healthLabel;
+        this.dietLabel = dietLabel;
         this.hasPhoto = hasPhoto;
         this.rating = rating;
+        this.calories = calories;
+        this.portions = portions;
     }
 
     public Long getId() {
@@ -77,10 +82,19 @@ public class CreateMenuDto {
         this.rating = rating;
     }
 
-
     public Integer getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Integer calories) {
+        this.calories = calories;
     }
 
     public Integer getPortions() {
+        return portions;
+    }
+
+    public void setPortions(Integer portions) {
+        this.portions = portions;
     }
 }

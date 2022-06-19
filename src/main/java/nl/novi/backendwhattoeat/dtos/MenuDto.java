@@ -7,23 +7,9 @@ public class MenuDto {
     private String healthLabel;
     private String dietLabel;
     private Boolean hasPhoto;
-    private Integer rating;
+    private Integer calories;
+    private Integer portions;
 
-    private CommentDto commentDto;
-    private RatingDto ratingDto;
-
-    public MenuDto(){
-    }
-
-    public MenuDto(Long id, String title, String cuisineType, String healthLabel, String dietLabel, Boolean hasPhoto, Integer rating){
-        this.id = id;
-        this.title = title;
-        this.cuisineType = cuisineType;
-        this.healthLabel = healthLabel;
-        this.dietLabel = dietLabel;
-        this.hasPhoto = hasPhoto;
-        this.rating = rating;
-    }
 
     public Long getId() {
         return id;
@@ -73,33 +59,20 @@ public class MenuDto {
         this.hasPhoto = hasPhoto;
     }
 
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
-    public CommentDto getCommentDto() {
-        return commentDto;
-    }
-
-    public void setCommentDto(CommentDto commentDto) {
-        this.commentDto = commentDto;
-    }
-
-    public RatingDto getRatingDto() {
-        return ratingDto;
-    }
-
-    public void setRatingDto(RatingDto ratingDto) {
-        this.ratingDto = ratingDto;
+    public Integer getCalories() {
+        return calories;
     }
 
     public void setCalories(Integer calories) {
+        this.calories = calories;
+    }
+
+    public Integer getPortions() {
+        return portions;
     }
 
     public void setPortions(Integer portions) {
+        this.portions = portions;
     }
+
 }

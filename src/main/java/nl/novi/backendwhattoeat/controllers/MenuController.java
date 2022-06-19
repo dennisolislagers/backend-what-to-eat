@@ -17,6 +17,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @Autowired
+
     public MenuController(MenuService menuService){
         this.menuService = menuService;
     }
@@ -41,7 +42,7 @@ public class MenuController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MenuDto> getMenuById(@PathVariable("id") Long id) {
+    public ResponseEntity<MenuDto> getMenu(@PathVariable("id") Long id) {
 
         MenuDto menu = menuService.getMenuById(id);
 
