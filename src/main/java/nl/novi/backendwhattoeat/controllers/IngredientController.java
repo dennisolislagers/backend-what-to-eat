@@ -1,11 +1,14 @@
 package nl.novi.backendwhattoeat.controllers;
 
 import nl.novi.backendwhattoeat.dtos.IngredientDto;
+import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.services.IngredientService;
+import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -14,10 +17,12 @@ import java.util.List;
 public class IngredientController {
     
     private final IngredientService ingredientService;
+    private final MenuIngredientService menuIngredientService;
 
     @Autowired
-    public IngredientController(IngredientService ingredientService){
+    public IngredientController(IngredientService ingredientService, MenuIngredientService menuIngredientService){
         this.ingredientService = ingredientService;
+        this.menuIngredientService = menuIngredientService;
     }
 
     @GetMapping
@@ -31,6 +36,12 @@ public class IngredientController {
         IngredientDto ingredient = ingredientService.getIngredientById(id);
         return ingredient;
     }
+
+    @GetMapping("menus/{ingredientId}")
+    public Collection<MenuDto> getMenuIngredientByIngredientId(@PathVariable("ingredientId") Long ingredientId){
+        return menuIngredientService.getMenuIngredientByIngredientId(ingredientId);
+    }
+
 
     @PostMapping
     public IngredientDto addPhoto(@RequestBody IngredientDto ingredientDto){

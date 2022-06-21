@@ -1,6 +1,9 @@
 package nl.novi.backendwhattoeat.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Ingredient {
@@ -11,6 +14,10 @@ public class Ingredient {
     private String productName;
     private String sort;
     private String amount;
+
+    @OneToMany(mappedBy = "menu")
+    @JsonIgnore
+    List<MenuIngredient> menuIngredients;
 
     public Long getId() {
         return id;
@@ -46,5 +53,13 @@ public class Ingredient {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public List<MenuIngredient> getMenuIngredients() {
+        return menuIngredients;
+    }
+
+    public void setMenuIngredients(List<MenuIngredient> menuIngredients) {
+        this.menuIngredients = menuIngredients;
     }
 }

@@ -1,8 +1,11 @@
 package nl.novi.backendwhattoeat.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -19,6 +22,14 @@ public class Menu {
     private Integer portions;
     private Integer calories;
     private Boolean hasPhoto;
+
+    @OneToMany (mappedBy = "menu")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    Collection<MenuIngredient> menuIngredients;
+
+
+
 
     public Long getId() {
         return id;

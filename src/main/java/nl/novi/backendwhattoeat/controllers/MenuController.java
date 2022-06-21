@@ -1,12 +1,15 @@
 package nl.novi.backendwhattoeat.controllers;
 
 import nl.novi.backendwhattoeat.dtos.CreateMenuDto;
+import nl.novi.backendwhattoeat.dtos.IngredientDto;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
+import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import nl.novi.backendwhattoeat.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +19,13 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @Autowired
+    private final MenuIngredientService menuIngredientService;
 
-    public MenuController(MenuService menuService){
+    @Autowired
+    public MenuController(MenuService menuService,
+                          MenuIngredientService menuIngredientService){
         this.menuService = menuService;
+        this.menuIngredientService = menuIngredientService;
     }
 
     @GetMapping
@@ -49,6 +55,12 @@ public class MenuController {
         return ResponseEntity.ok().body(menu);
 
     }
+
+    @GetMapping("ingredients/{menuId}")
+    public Collection<IngredientDto> getMenuIngredientByMenuId(@PathVariable("menuId") Long menuId){
+        return menuIngredientService.getMenuIngredientByMenuId(menuId);
+    }
+
 
     @PostMapping
     public ResponseEntity<Object> addMenu(@RequestBody CreateMenuDto createMenuDto){
