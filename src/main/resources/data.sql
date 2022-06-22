@@ -20,7 +20,6 @@ INSERT INTO newsletter (id, title, text, post_time) VALUES (1, 'nieuwsbrief week
 INSERT INTO newsletter (id, title, text, post_time) VALUES (2, 'nieuwsbrief week 2', 'deze week speciale gerechten van restaurant de gouden balg uit utrecht', '2022-01-09');
 INSERT INTO newsletter (id, title, text, post_time) VALUES (3, 'nieuwsbrief week 3', 'deze week tips over hoe je restjes uit de koelkast opmaakt', '2022-01-16');
 
-
 INSERT INTO menu_ingredient (menu_id, ingredient_id) VALUES (3, 5);
 INSERT INTO menu_ingredient (menu_id, ingredient_id) VALUES (2, 4);
 INSERT INTO menu_ingredient (menu_id, ingredient_id) VALUES (1, 1);
