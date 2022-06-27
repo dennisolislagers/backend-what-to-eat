@@ -1,15 +1,19 @@
 package nl.novi.backendwhattoeat.controllers;
 
+import nl.novi.backendwhattoeat.dtos.FavouriteDto;
 import nl.novi.backendwhattoeat.dtos.IngredientDto;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.services.IngredientService;
 import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -26,15 +30,20 @@ public class IngredientController {
     }
 
     @GetMapping
-    public List<IngredientDto> getAllIngredients() {
-        List<IngredientDto> ingredients = ingredientService.getAllIngredients();
-        return ingredients;
+    public ResponseEntity<List<IngredientDto>> getAllIngredients(@RequestParam(value = "product_name", required = false) Optional<String> productName) {
+        List<IngredientDto> dtos;
+        if(productName.isEmpty()){
+            dtos = ingredientService.getAllIngredients();
+        }else{
+            dtos = ingredientService.findAllIngredientsByProductName(productName.get());
+        }
+        return ResponseEntity.ok().body(dtos);
     }
 
     @GetMapping("{id}")
-    public IngredientDto getIngredientById(@PathVariable("id") Long id) {
+    public ResponseEntity<IngredientDto> getIngredientById(@PathVariable("id") Long id) {
         IngredientDto ingredient = ingredientService.getIngredientById(id);
-        return ingredient;
+        return ResponseEntity.ok().body(ingredient);
     }
 
     @GetMapping("menus/{ingredientId}")
@@ -44,13 +53,24 @@ public class IngredientController {
 
 
     @PostMapping
-    public IngredientDto addPhoto(@RequestBody IngredientDto ingredientDto){
+    public ResponseEntity<IngredientDto> addPhoto(@RequestBody IngredientDto ingredientDto){
         IngredientDto ingredient = ingredientService.addIngredient(ingredientDto);
-        return ingredient;
+
+        final URI location = URI.create("/ingredients/" + ingredient.getId());
+        return ResponseEntity.created(location).body(ingredient);
     }
 
     @DeleteMapping("{id}")
-    public void deleteIngredient(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deleteIngredient(@PathVariable("id") Long id) {
         ingredientService.deleteIngredient(id);
+
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateIngredient(@PathVariable Long id, @RequestBody IngredientDto newIngredient) {
+
+        IngredientDto dto = ingredientService.updateIngredient(id, newIngredient);
+
+        return ResponseEntity.ok().body(dto);
     }
 }

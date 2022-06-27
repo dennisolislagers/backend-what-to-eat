@@ -28,6 +28,10 @@ public class Menu {
     @JsonIgnore
     Collection<MenuIngredient> menuIngredients;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
 
 

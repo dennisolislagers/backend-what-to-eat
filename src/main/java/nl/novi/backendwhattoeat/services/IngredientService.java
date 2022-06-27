@@ -6,6 +6,7 @@ import nl.novi.backendwhattoeat.models.Ingredient;
 import nl.novi.backendwhattoeat.repositories.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +36,45 @@ public class IngredientService {
         }
     }
 
+    public List<IngredientDto> findAllIngredientsByProductName(String productName) {
+        List<Ingredient> ingredientList = ingredientRepository.findIngredientsByProductNameEqualsIgnoreCase(productName);
+        List<IngredientDto> ingredientDtoList = new ArrayList<>();
+
+        for(Ingredient ingredient : ingredientList){
+            IngredientDto dto = transferToDto(ingredient);
+            ingredientDtoList.add(dto);
+        }
+        return ingredientDtoList;
+    }
+
+
+
     public IngredientDto addIngredient(IngredientDto ingredientDto) {
-        Ingredient photo =  transferToIngredient(ingredientDto);
-        ingredientRepository.save(photo);
+        Ingredient ingredient =  transferToIngredient(ingredientDto);
+        ingredientRepository.save(ingredient);
         return ingredientDto;
     }
 
-    public void deleteIngredient(Long id) {
+    public void deleteIngredient( @RequestBody Long id) {
         ingredientRepository.deleteById(id);
+    }
+
+    public IngredientDto updateIngredient(Long id, IngredientDto ingredientDto) {
+
+        if (ingredientRepository.findById(id).isPresent()) {
+
+            Ingredient ingredient = ingredientRepository.findById(id).get();
+
+            Ingredient ingredient1 = transferToIngredient(ingredientDto);
+            ingredient1.setId(ingredient.getId());
+
+            ingredientRepository.save(ingredient1);
+
+            return transferToDto(ingredient1);
+
+        } else {
+            throw new RecordNotFoundException("Geen ingredient gevonden");
+        }
     }
 
     public IngredientDto transferToDto(Ingredient ingredient) {
@@ -66,5 +98,7 @@ public class IngredientService {
 
         return ingredient;
     }
+
+
 
 }

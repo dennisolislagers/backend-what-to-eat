@@ -12,6 +12,10 @@ public class Favourite {
     private String text;
     private Integer rating;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public Long getId() {
         return id;
@@ -43,5 +47,13 @@ public class Favourite {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

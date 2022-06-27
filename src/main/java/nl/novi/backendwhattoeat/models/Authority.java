@@ -11,8 +11,10 @@ public class Authority implements Serializable {
     @Column(nullable = false)
     private String username;
 
+    @Id
     @Column(nullable = false)
     private String authority;
+
 
     public String getUsername() {
         return username;
@@ -29,4 +31,6 @@ public class Authority implements Serializable {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
+
+
 }

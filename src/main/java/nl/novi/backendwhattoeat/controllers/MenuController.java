@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,6 @@ import java.util.Optional;
 public class MenuController {
 
     private final MenuService menuService;
-
     private final MenuIngredientService menuIngredientService;
 
     @Autowired
@@ -29,20 +29,26 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MenuDto>> getAllMenus(@RequestParam(value = "title", required = false) Optional<String> title) {
-
+    public ResponseEntity<List<MenuDto>> getAllMenus(@RequestParam(value = "title", required = false)
+                                                     Optional<String> title,
+                                                     @RequestParam(value = "cuisine_type", required = false)
+                                                     Optional<String> cuisineType,
+                                                     @RequestParam(value = "health_label", required = false)
+                                                     Optional<String> healthLabel,
+                                                     @RequestParam(value = "diet_label", required = false)
+                                                     Optional<String> dietLabel) {
         List<MenuDto> dtos;
-
-        if (title.isEmpty()){
-
-            dtos = menuService.getAllMenus();
-
-        } else {
-
+        if (title.isPresent() && cuisineType.isEmpty() && healthLabel.isEmpty() && dietLabel.isEmpty()) {
             dtos = menuService.getAllMenusByTitle (title.get());
-
+        } else if (title.isEmpty() && cuisineType.isPresent() && healthLabel.isEmpty() && dietLabel.isEmpty()){
+            dtos = menuService.getAllMenusByCuisineType(cuisineType.get());
+        } else if (title.isEmpty() && cuisineType.isEmpty() && healthLabel.isPresent() && dietLabel.isEmpty()){
+            dtos = menuService.getAllMenusByHealthLabel(healthLabel.get());
+        } else if (title.isEmpty() && cuisineType.isEmpty() && healthLabel.isEmpty() && dietLabel.isPresent()){
+            dtos = menuService.getAllMenusByDietLabel(dietLabel.get());
+        } else {
+            dtos = menuService.getAllMenus();
         }
-
         return ResponseEntity.ok().body(dtos);
 
     }
@@ -65,9 +71,10 @@ public class MenuController {
     @PostMapping
     public ResponseEntity<Object> addMenu(@RequestBody CreateMenuDto createMenuDto){
 
-        MenuDto menu = menuService.addMenu(createMenuDto);
+        final MenuDto menu = menuService.addMenu(createMenuDto);
 
-        return ResponseEntity.created(null).body(menu);
+        final URI location = URI.create("/menus/" + menu.getId());
+        return ResponseEntity.created(location).body(menu);
 
     }
 

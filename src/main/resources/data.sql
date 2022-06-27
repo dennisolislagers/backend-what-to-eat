@@ -26,3 +26,6 @@ INSERT INTO menu_ingredient (menu_id, ingredient_id) VALUES (1, 1);
 INSERT INTO menu_ingredient (menu_id, ingredient_id) VALUES (1, 4);
 INSERT INTO menu_ingredient (menu_id, ingredient_id) VALUES (2, 3);
 INSERT INTO menu_ingredient (menu_id, ingredient_id) VALUES (3, 2);
+
+INSERT INTO authorities (username, authority) VALUES ('user', 'ROLE_USER');
+INSERT INTO authorities (username, authority) VALUES ('admin', 'ROLE_ADMIN');

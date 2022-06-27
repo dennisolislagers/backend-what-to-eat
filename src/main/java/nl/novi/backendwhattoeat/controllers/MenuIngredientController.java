@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("menuingredient")
 public class MenuIngredientController {
-    private MenuIngredientService menuIngredientService;
+    private final MenuIngredientService menuIngredientService;
 
     @Autowired
     public MenuIngredientController (MenuIngredientService menuIngredientService){

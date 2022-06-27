@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class NewsletterService {
 
-    private NewsletterRepository newsletterRepository;
+    private final NewsletterRepository newsletterRepository;
 
     public NewsletterService(NewsletterRepository newsletterRepository){
         this.newsletterRepository = newsletterRepository;
@@ -78,25 +78,28 @@ public class NewsletterService {
 
         }
     }
+
+    public NewsletterDto transferToDto(Newsletter newsletter) {
+        var dto = new NewsletterDto();
+
+        dto.id = newsletter.getId();
+        dto.title = newsletter.getTitle();
+        dto.text = newsletter.getText();
+        dto.postTime = newsletter.getPostTime();
+
+        return dto;
+    }
         public Newsletter transferToNewsletter(NewsletterDto dto){
             var newsletter = new Newsletter();
-
-            dto.id = newsletter.getId();
-            dto.title = newsletter.getTitle();
-            dto.text = newsletter.getText();
-            dto.postTime = newsletter.getPostTime();
-
-            return newsletter;
-        }
-
-        public NewsletterDto transferToDto(Newsletter newsletter) {
-            NewsletterDto dto = new NewsletterDto();
 
             newsletter.setId(dto.getId());
             newsletter.setTitle(dto.getTitle());
             newsletter.setText(dto.getText());
             newsletter.setPostTime(dto.getPostTime());
 
-            return dto;
+
+            return newsletter;
         }
+
+
 }

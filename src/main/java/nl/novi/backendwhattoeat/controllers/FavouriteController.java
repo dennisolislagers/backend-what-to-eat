@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,19 +23,12 @@ public class FavouriteController {
 
     @GetMapping
     public ResponseEntity<List<FavouriteDto>> getAllFavourites(@RequestParam(value = "title", required = false) Optional<String> title) {
-
         List<FavouriteDto> dtos;
-
         if (title.isEmpty()){
-
             dtos = favouriteService.getAllFavourites();
-
         } else {
-
             dtos = favouriteService.findAllFavouritesByTitle (title.get());
-
         }
-
         return ResponseEntity.ok().body(dtos);
     }
 
@@ -52,7 +46,8 @@ public class FavouriteController {
 
         FavouriteDto favourite = favouriteService.createFavourite(favouriteDto);
 
-        return ResponseEntity.created(null).body(favourite);
+        final URI location = URI.create("/favourites/" + favourite.getId());
+        return ResponseEntity.created(location).body(favourite);
 
     }
     @DeleteMapping("/{id}")

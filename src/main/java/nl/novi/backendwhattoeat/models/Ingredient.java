@@ -19,6 +19,7 @@ public class Ingredient {
     @JsonIgnore
     List<MenuIngredient> menuIngredients;
 
+
     public Long getId() {
         return id;
     }
@@ -32,10 +33,6 @@ public class Ingredient {
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public void setTitle(String productName) {
         this.productName = productName;
     }
 

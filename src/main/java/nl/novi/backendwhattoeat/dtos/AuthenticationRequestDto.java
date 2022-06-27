@@ -1,15 +1,23 @@
 package nl.novi.backendwhattoeat.dtos;
 
-import nl.novi.backendwhattoeat.models.Authority;
+import javax.validation.constraints.*;
 
-import java.util.Set;
 
-public class CreateUserDto {
+public class AuthenticationRequestDto {
 
+    @NotEmpty
     private String username;
-    private String password;
-    private String emailadress;
 
+    @Size(min=4)
+    private String password;
+
+    public AuthenticationRequestDto(){
+
+    }
+    public AuthenticationRequestDto(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;
@@ -26,13 +34,4 @@ public class CreateUserDto {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getEmailadress() {
-        return emailadress;
-    }
-
-    public void setEmailadress(String emailadress) {
-        this.emailadress = emailadress;
-    }
-
 }

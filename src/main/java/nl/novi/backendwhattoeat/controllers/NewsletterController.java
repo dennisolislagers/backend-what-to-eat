@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,8 @@ public class NewsletterController {
 
         NewsletterDto newsletter = newsletterService.createNewsletter(newsletterDto);
 
-        return ResponseEntity.created(null).body(newsletter);
+        final URI location = URI.create("/newsletters/" + newsletter.getId());
+        return ResponseEntity.created(location).body(newsletter);
 
     }
 

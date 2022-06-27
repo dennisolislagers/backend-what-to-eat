@@ -15,9 +15,7 @@ import java.util.List;
 @Service
 public class MenuService {
 
-    @Autowired
     private final MenuRepository menuRepository;
-
 
     public MenuService(MenuRepository menuRepository){
         this.menuRepository = menuRepository;
@@ -34,6 +32,15 @@ public class MenuService {
         return menuDtoList;
     }
 
+    public MenuDto getMenuById(Long id) {
+        if (menuRepository.findById(id).isPresent()) {
+            Menu menu = menuRepository.findById(id).get();
+            return transferToDto(menu);
+        }else{
+            throw new RecordNotFoundException("geen menu gevonden");
+        }
+    }
+
     public List<MenuDto> getAllMenusByTitle(String title) {
         List<Menu> menuList = menuRepository.findAllMenusByTitleEqualsIgnoreCase(title);
         List<MenuDto> menuDtoList = new ArrayList<>();
@@ -45,27 +52,45 @@ public class MenuService {
         return menuDtoList;
     }
 
-    public MenuDto getMenuById(Long id) {
-        if (menuRepository.findById(id).isPresent()) {
-            Menu menu = menuRepository.findById(id).get();
-            return transferToDto(menu);
-        }else{
-            throw new RecordNotFoundException("geen menu gevonden");
+    public List<MenuDto> getAllMenusByCuisineType (String cuisineType) {
+        List<Menu> menuList = menuRepository.findAllMenusByCuisineTypeEqualsIgnoreCase(cuisineType);
+        List<MenuDto> menuDtoList = new ArrayList<>();
+
+        for(Menu menu : menuList){
+            MenuDto dto = transferToDto(menu);
+            menuDtoList.add(dto);
         }
+        return menuDtoList;
+    }
+    public List<MenuDto> getAllMenusByHealthLabel (String healthLabel) {
+        List<Menu> menuList = menuRepository.findAllMenusByHealthLabelEqualsIgnoreCase(healthLabel);
+        List<MenuDto> menuDtoList = new ArrayList<>();
+
+        for(Menu menu : menuList){
+            MenuDto dto = transferToDto(menu);
+            menuDtoList.add(dto);
+        }
+        return menuDtoList;
     }
 
-    public MenuDto addMenu(CreateMenuDto dto) {
+    public List<MenuDto> getAllMenusByDietLabel (String dietLabel) {
+        List<Menu> menuList = menuRepository.findAllMenusByDietLabelEqualsIgnoreCase(dietLabel);
+        List<MenuDto> menuDtoList = new ArrayList<>();
 
+        for(Menu menu : menuList){
+            MenuDto dto = transferToDto(menu);
+            menuDtoList.add(dto);
+        }
+        return menuDtoList;
+    }
+    public MenuDto addMenu(CreateMenuDto dto) {
         Menu menu = transferToMenu(dto);
         menuRepository.save(menu);
-
         return transferToDto(menu);
     }
 
     public void deleteMenu(@RequestBody Long id) {
-
         menuRepository.deleteById(id);
-
     }
 
     public MenuDto updateMenu(Long id, CreateMenuDto inputDto) {
@@ -89,20 +114,6 @@ public class MenuService {
 
     }
 
-    public Menu transferToMenu(CreateMenuDto createMenu){
-        var menu = new Menu();
-
-        menu.setTitle(createMenu.getTitle());
-        menu.setCuisineType(createMenu.getCuisineType());
-        menu.setHealthLabel(createMenu.getHealthLabel());
-        menu.setDietLabel(createMenu.getDietLabel());
-        menu.setCalories(createMenu.getCalories());
-        menu.setPortions(createMenu.getPortions());
-        menu.setHasPhoto(createMenu.getHasPhoto());
-
-        return menu;
-    }
-
     public MenuDto transferToDto(Menu menu){
         MenuDto dto = new MenuDto();
 
@@ -117,6 +128,22 @@ public class MenuService {
 
         return dto;
     }
+
+    public Menu transferToMenu(CreateMenuDto createMenu){
+        var menu = new Menu();
+
+        menu.setTitle(createMenu.getTitle());
+        menu.setCuisineType(createMenu.getCuisineType());
+        menu.setHealthLabel(createMenu.getHealthLabel());
+        menu.setDietLabel(createMenu.getDietLabel());
+        menu.setCalories(createMenu.getCalories());
+        menu.setPortions(createMenu.getPortions());
+        menu.setHasPhoto(createMenu.getHasPhoto());
+
+        return menu;
+    }
+
+
 }
 
 

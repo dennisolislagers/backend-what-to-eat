@@ -1,7 +1,11 @@
 package nl.novi.backendwhattoeat.models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -9,7 +13,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -20,14 +24,23 @@ public class User {
 
     private String emailadress;
 
-    @OneToMany(
-            targetEntity = Authority.class,
-            mappedBy = "username",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.EAGER
-    )
-    private Set<Authority> authorities = new HashSet<>();
+//    @OneToMany(
+//            targetEntity = Authority.class,
+//            mappedBy = "username",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.EAGER)
+//    private Set<Authority> authorities = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    List<Favourite> favourites;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    List<Newsletter> newsletters;
+
 
     public Long getId() {
         return id;
@@ -53,6 +66,7 @@ public class User {
         this.password = password;
     }
 
+
     public String getEmailadress() {
         return emailadress;
     }
@@ -61,11 +75,39 @@ public class User {
         this.emailadress = emailadress;
     }
 
-    public Set<Authority> getAuthorities() {
-        return authorities;
+//    public boolean isEnabled() {
+//        return enabled;
+//    }
+//
+//    public void setEnabled(boolean enabled) {
+//        this.enabled = enabled;
+//    }
+//
+//    public Set<Authority> getAuthorities() {
+//        return authorities;
+//    }
+//
+//    public void setAuthorities(Set<Authority> authorities) {
+//        this.authorities = authorities;
+//    }
+
+    public List<Favourite> getFavourites() {
+        return favourites;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
-        this.authorities = authorities;
+    public void setFavourites(List<Favourite> favourites) {
+        this.favourites = favourites;
     }
+
+    public List<Newsletter> getNewsletters() {
+        return newsletters;
+    }
+
+    public void setNewsletters(List<Newsletter> newsletters) {
+        this.newsletters = newsletters;
+    }
+
+
 }
+
+
