@@ -64,4 +64,9 @@ public class FavouriteController {
 
         return ResponseEntity.ok().body(dto);
     }
+
+    @PutMapping("{id}/{userId}")
+    public void assignFavouriteToUser(@PathVariable("id") Long id, @PathVariable("favouriteId") Long favouriteId){
+        favouriteService.assignFavouriteToUser(id, favouriteId);
+    }
 }

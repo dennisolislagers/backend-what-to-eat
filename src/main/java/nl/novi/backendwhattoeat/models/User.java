@@ -23,14 +23,18 @@ public class User {
     private String password;
 
     private String emailadress;
+    private String role;
+    private boolean enabled;
 
-//    @OneToMany(
-//            targetEntity = Authority.class,
-//            mappedBy = "username",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.EAGER)
-//    private Set<Authority> authorities = new HashSet<>();
+
+
+    @OneToMany(
+            targetEntity = Authority.class,
+            mappedBy = "username",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<Authority> authorities = new HashSet<>();
 
 
     @OneToMany(mappedBy = "user")
@@ -75,21 +79,30 @@ public class User {
         this.emailadress = emailadress;
     }
 
-//    public boolean isEnabled() {
-//        return enabled;
-//    }
-//
-//    public void setEnabled(boolean enabled) {
-//        this.enabled = enabled;
-//    }
-//
-//    public Set<Authority> getAuthorities() {
-//        return authorities;
-//    }
-//
-//    public void setAuthorities(Set<Authority> authorities) {
-//        this.authorities = authorities;
-//    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
     public List<Favourite> getFavourites() {
         return favourites;
@@ -106,7 +119,6 @@ public class User {
     public void setNewsletters(List<Newsletter> newsletters) {
         this.newsletters = newsletters;
     }
-
 
 }
 

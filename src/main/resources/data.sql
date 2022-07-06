@@ -1,6 +1,6 @@
-INSERT INTO users (id, username, password, emailadress) VALUES (1, 'ollie', 'sjuulke', 'dennis@hotmail.com');
-INSERT INTO users (id, username, password, emailadress) VALUES (2, 'sjuulke', 'brokjes', 'sjuulke@hotmail.com');
-INSERT INTO users (id, username, password, emailadress) VALUES (3, 'iris', 'lekkerslapen', 'iris@gmail.com');
+INSERT INTO users (id, username, password, emailadress, role, enabled) VALUES (1, 'ollie', '$2a$12$w/HpVBHuWixcUMRL3yAuxekpAmBYwEkz6b0HXmJFM8MUazLKCVhYe', 'dennis@hotmail.com', 'ADMIN', true);
+INSERT INTO users (id, username, password, emailadress, role, enabled) VALUES (2, 'sjuulke', '$2a$12$4EXX0nIwYjNcGcr5BVZ1heBUi3AX2wFvioyFxkdy/D5IC1u/n84o6', 'sjuulke@hotmail.com', 'USER', true);
+INSERT INTO users (id, username, password, emailadress, role, enabled) VALUES (3, 'iris', '$2a$12$npvmBuoLq4VoC0cgcM1ZzeSv73TtxJwleXme2/ghNDnSLTfShH.F2', 'iris@gmail.com', 'USER', true);
 
 INSERT INTO favourite (id, title, text, rating) VALUES (1, 'sajoer boontjes', 'ze smaken verukkelijk', 9);
 INSERT INTO favourite (id, title, text, rating) VALUES (2, 'kippenvleugeltjes', 'heel erg pittig', 8);

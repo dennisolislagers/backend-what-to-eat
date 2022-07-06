@@ -66,5 +66,10 @@ public class NewsletterController {
 
         return ResponseEntity.ok().body(dto);
     }
-
+    @PutMapping("{id}/{userId}")
+    public void assignNewsletterToUser(@PathVariable("id") Long id, @PathVariable("newsletterId") Long newsletterId){
+        newsletterService.assignNewsletterToUser(id, newsletterId);
+    }
 }
+
+

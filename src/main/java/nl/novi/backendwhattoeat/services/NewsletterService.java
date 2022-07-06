@@ -4,6 +4,7 @@ import nl.novi.backendwhattoeat.dtos.NewsletterDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Newsletter;
 import nl.novi.backendwhattoeat.repositories.NewsletterRepository;
+import nl.novi.backendwhattoeat.repositories.UserRepository;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,9 +15,13 @@ import java.util.List;
 public class NewsletterService {
 
     private final NewsletterRepository newsletterRepository;
+    private final UserRepository userRepository;
 
-    public NewsletterService(NewsletterRepository newsletterRepository){
+
+    public NewsletterService(NewsletterRepository newsletterRepository,
+                             UserRepository userRepository){
         this.newsletterRepository = newsletterRepository;
+        this.userRepository = userRepository;
     }
 
     public List<NewsletterDto> getAllNewsletters(){
@@ -76,6 +81,21 @@ public class NewsletterService {
 
             throw new RecordNotFoundException("geen nieuwsbrief gevonden");
 
+        }
+    }
+
+    public void assignNewsletterToUser(Long id, Long userId){
+        var optionalNewsletter = newsletterRepository.findById(id);
+        var optionalUser = userRepository.findById(userId);
+
+        if(optionalUser.isPresent() && optionalNewsletter.isPresent()) {
+            var user = optionalUser.get();
+            var newsletter = optionalNewsletter.get();
+
+            newsletter.setUser(user);
+            newsletterRepository.save(newsletter);
+        } else {
+            throw new RecordNotFoundException();
         }
     }
 

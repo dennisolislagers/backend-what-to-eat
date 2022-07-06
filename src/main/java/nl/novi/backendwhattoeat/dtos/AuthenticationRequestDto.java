@@ -8,7 +8,7 @@ public class AuthenticationRequestDto {
     @NotEmpty
     private String username;
 
-    @Size(min=4)
+    @Size(min=4, max=20)
     private String password;
 
     public AuthenticationRequestDto(){

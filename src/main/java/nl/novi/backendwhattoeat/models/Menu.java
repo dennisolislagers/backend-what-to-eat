@@ -99,6 +99,21 @@ public class Menu {
         this.calories = calories;
     }
 
+    public Collection<MenuIngredient> getMenuIngredients() {
+        return menuIngredients;
+    }
+
+    public void setMenuIngredients(Collection<MenuIngredient> menuIngredients) {
+        this.menuIngredients = menuIngredients;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
 
 

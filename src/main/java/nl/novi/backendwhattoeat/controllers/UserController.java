@@ -1,12 +1,19 @@
 package nl.novi.backendwhattoeat.controllers;
 
+import nl.novi.backendwhattoeat.dtos.NewsletterDto;
 import nl.novi.backendwhattoeat.dtos.UserDto;
 import nl.novi.backendwhattoeat.dtos.CreateUserDto;
+import nl.novi.backendwhattoeat.services.FavouriteService;
+import nl.novi.backendwhattoeat.services.NewsletterService;
 import nl.novi.backendwhattoeat.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +23,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+
 
     @Autowired
     public UserController(UserService userService) {
@@ -53,13 +61,21 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody CreateUserDto createUserDto){
+    public ResponseEntity<Object> createUser(@Valid @RequestBody CreateUserDto createUserDto, BindingResult newUser){
 
-        final UserDto user = userService.createUser(createUserDto);
+        if(newUser.hasErrors()){
+            StringBuilder stringBuilder = new StringBuilder();
+            for (FieldError error : newUser.getFieldErrors()){
+                stringBuilder.append(error.getDefaultMessage());
+                stringBuilder.append("\n");
+            }
+            return new ResponseEntity<>(stringBuilder.toString(), HttpStatus.BAD_REQUEST);
+        }else{
+            final UserDto user = userService.createUser(createUserDto);
 
-        final URI location = URI.create("/users/" + user.getId());
-        return ResponseEntity.created(location).body(user);
-
+            final URI location = URI.create("/users/" + user.getId());
+            return ResponseEntity.created(location).body(user);
+        }
     }
     @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
@@ -76,5 +92,6 @@ public class UserController {
 
         return ResponseEntity.ok().body(dto);
     }
-    }
+
+
 

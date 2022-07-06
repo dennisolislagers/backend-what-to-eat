@@ -1,9 +1,11 @@
 package nl.novi.backendwhattoeat.services;
 
+import nl.novi.backendwhattoeat.controllers.FavouriteController;
 import nl.novi.backendwhattoeat.dtos.FavouriteDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Favourite;
 import nl.novi.backendwhattoeat.repositories.FavouriteRepository;
+import nl.novi.backendwhattoeat.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +17,16 @@ import java.util.Optional;
 @Service
 public class FavouriteService {
 
-    @Autowired
-    private FavouriteRepository favouriteRepository;
+
+    private final FavouriteRepository favouriteRepository;
+    private final UserRepository userRepository;
+
+    public FavouriteService(FavouriteRepository favouriteRepository,
+                            UserRepository userRepository
+    ){
+        this.favouriteRepository = favouriteRepository;
+        this.userRepository = userRepository;
+    }
 
     public List<FavouriteDto> getAllFavourites(){
         List<FavouriteDto> dtos = new ArrayList<>();
@@ -100,4 +110,19 @@ public class FavouriteService {
     }
 
 
+    public void assignFavouriteToUser(Long id, Long userId) {
+        var optionalFavourite = favouriteRepository.findById(id);
+        var optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent() && optionalFavourite.isPresent()){
+            var user = optionalUser.get();
+            var favourite = optionalFavourite.get();
+
+            favourite.setUser(user);
+            favouriteRepository.save(favourite);
+        }
+        else{
+            throw new RecordNotFoundException();
+        }
+    }
 }

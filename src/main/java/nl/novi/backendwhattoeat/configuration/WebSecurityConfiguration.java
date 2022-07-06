@@ -2,68 +2,65 @@ package nl.novi.backendwhattoeat.configuration;
 
 
 import nl.novi.backendwhattoeat.security.JwtRequestFilter;
+import nl.novi.backendwhattoeat.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    JwtUtil jwtUtil;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
-    @Autowired
-    DataSource dataSource;
-    @Autowired
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(
-                        "SELECT username, password, enabled" +
-                                " FROM users" +
-                                " WHERE username=?"
-                )
-                .authoritiesByUsernameQuery(
-                        "SELECT username, authority" +
-                                " FROM authorities" +
-                        " WHERE username=?");
+    @Bean
+    public UserDetailsService userDetailService(){
+        return super.userDetailsService();
     }
+
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+        auth
+                .jdbcAuthentication()
+                .passwordEncoder(new BCryptPasswordEncoder())
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, enabled from users where username=?")
+                .authoritiesByUsernameQuery("select username, role from users where username=?");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception{
+        http
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/**").hasRole("ADMIN")
-                .antMatchers("/menus/**").hasAnyRole("USER", "ADMIN")
-                .anyRequest().denyAll()
+                .antMatchers("/users").hasRole("ADMIN")
+                .anyRequest()
+                .authenticated()
                 .and()
-                .cors()
-                .and()
-                .csrf().disable()
-                .formLogin().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.addFilterBefore(jwtRequestFilter,
-                UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-    }
+}
 

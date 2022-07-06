@@ -1,6 +1,5 @@
 package nl.novi.backendwhattoeat.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,15 +20,14 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-//    final String username = extractUsername(token);
-//    return username.equals(userDetails.getUsername()) &&
-//            !isTokenExpired(token);
+    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    public JwtRequestFilter(JwtUtil jwtUtil, UserDetailsService udService){
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = udService;
+    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,

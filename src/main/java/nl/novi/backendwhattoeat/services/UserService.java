@@ -2,8 +2,10 @@ package nl.novi.backendwhattoeat.services;
 
 import nl.novi.backendwhattoeat.dtos.UserDto;
 import nl.novi.backendwhattoeat.dtos.CreateUserDto;
+import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.exceptions.UserNotFoundException;
 import nl.novi.backendwhattoeat.models.User;
+import nl.novi.backendwhattoeat.repositories.NewsletterRepository;
 import nl.novi.backendwhattoeat.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,12 +17,15 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final NewsletterRepository newsletterRepository;
 //    private final PasswordEncoder passwordEncoder;
 
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+                       NewsletterRepository newsletterRepository) {
 
         this.userRepository = userRepository;
+        this.newsletterRepository = newsletterRepository;
 //        this.passwordEncoder = passwordEncoder;
     }
 
