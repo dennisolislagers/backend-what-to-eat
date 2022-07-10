@@ -110,19 +110,5 @@ public class FavouriteService {
     }
 
 
-    public void assignFavouriteToUser(Long id, Long userId) {
-        var optionalFavourite = favouriteRepository.findById(id);
-        var optionalUser = userRepository.findById(userId);
 
-        if (optionalUser.isPresent() && optionalFavourite.isPresent()){
-            var user = optionalUser.get();
-            var favourite = optionalFavourite.get();
-
-            favourite.setUser(user);
-            favouriteRepository.save(favourite);
-        }
-        else{
-            throw new RecordNotFoundException();
-        }
-    }
 }

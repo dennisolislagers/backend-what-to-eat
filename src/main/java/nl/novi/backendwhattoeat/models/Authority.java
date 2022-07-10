@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "authorities")
+@IdClass(AuthorityKey.class)
 public class Authority implements Serializable {
 
     @Id
@@ -15,6 +16,11 @@ public class Authority implements Serializable {
     @Column(nullable = false)
     private String authority;
 
+    public Authority() {}
+    public Authority(String username, String authority) {
+        this.username = username;
+        this.authority = authority;
+    }
 
     public String getUsername() {
         return username;

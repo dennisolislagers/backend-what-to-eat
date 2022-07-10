@@ -1,8 +1,6 @@
 package nl.novi.backendwhattoeat.configuration;
 
-
 import nl.novi.backendwhattoeat.security.JwtRequestFilter;
-import nl.novi.backendwhattoeat.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 import javax.sql.DataSource;
 
 @Configuration
@@ -28,26 +27,28 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    JwtUtil jwtUtil;
+    JwtRequestFilter jwtRequestFilter;
 
     @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
+    public AuthenticationManager authenticationManagerBean () throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Bean
-    public UserDetailsService userDetailService(){
-        return super.userDetailsService();
+    public UserDetailsService userDetailServiceBean() throws Exception{
+        return super.userDetailsServiceBean();
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder () { return new BCryptPasswordEncoder();}
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth
                 .jdbcAuthentication()
-                .passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery("select username, role from users where username=?");
+                .authoritiesByUsernameQuery("select username, authority from users where username=?");
     }
 
     @Override
@@ -56,11 +57,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users").hasRole("ADMIN")
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/newsletters").hasAuthority("ADMIN")
+                .antMatchers("/ratings/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "menus").authenticated()
+                .anyRequest().permitAll()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .cors()
+                .and()
+                .csrf().disable()
+                .formLogin().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
 

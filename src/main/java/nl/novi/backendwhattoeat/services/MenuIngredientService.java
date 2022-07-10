@@ -51,7 +51,7 @@ public class MenuIngredientService {
 
     public Collection<IngredientDto> getMenuIngredientByMenuId(Long menuId){
         Collection<IngredientDto> dtos = new HashSet<>();
-        Collection<MenuIngredient> menuIngredients = menuIngredientRepository.findAllByIngredientId(menuId);
+        Collection<MenuIngredient> menuIngredients = menuIngredientRepository.findAllByMenuId(menuId);
         for(MenuIngredient menuIngredient : menuIngredients){
             Ingredient ingredient = menuIngredient.getIngredient();
             IngredientDto dto = new IngredientDto();

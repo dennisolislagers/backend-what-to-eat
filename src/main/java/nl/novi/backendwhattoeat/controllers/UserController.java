@@ -1,97 +1,102 @@
 package nl.novi.backendwhattoeat.controllers;
 
-import nl.novi.backendwhattoeat.dtos.NewsletterDto;
 import nl.novi.backendwhattoeat.dtos.UserDto;
-import nl.novi.backendwhattoeat.dtos.CreateUserDto;
-import nl.novi.backendwhattoeat.services.FavouriteService;
-import nl.novi.backendwhattoeat.services.NewsletterService;
+import nl.novi.backendwhattoeat.exceptions.BadRequestException;
 import nl.novi.backendwhattoeat.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
+
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
 
 @RestController
-@RequestMapping("users")
+@RequestMapping(value = "/users")
 public class UserController {
 
-    private final UserService userService;
-
+    private UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers(@RequestParam(value = "username", required = false) Optional<String> username) {
-
-        List<UserDto> dtos;
-
-        if (username.isEmpty()){
-
-            dtos = userService.getAllUsers();
-
-        } else {
-
-            dtos = userService.getAllUsersByUsername (username.get());
-
-        }
-
-        return ResponseEntity.ok().body(dtos);
-
+    @GetMapping(value = "")
+    public ResponseEntity<Object> getUsers() {
+        return ResponseEntity.ok().body(userService.getUsers());
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
-
-        UserDto user = userService.getUserById(id);
-
-        return ResponseEntity.ok().body(user);
-
+    @GetMapping(value = "/{username}")
+    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.getUser(username));
     }
 
+    @PostMapping(value = "register")
+    public ResponseEntity<Object> createUser(@RequestBody UserDto user) {
+        String newUsername = userService.createUser(user);
 
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(newUsername)
+                .toUri();
 
-    @PostMapping
-    public ResponseEntity<Object> createUser(@Valid @RequestBody CreateUserDto createUserDto, BindingResult newUser){
-
-        if(newUser.hasErrors()){
-            StringBuilder stringBuilder = new StringBuilder();
-            for (FieldError error : newUser.getFieldErrors()){
-                stringBuilder.append(error.getDefaultMessage());
-                stringBuilder.append("\n");
-            }
-            return new ResponseEntity<>(stringBuilder.toString(), HttpStatus.BAD_REQUEST);
-        }else{
-            final UserDto user = userService.createUser(createUserDto);
-
-            final URI location = URI.create("/users/" + user.getId());
-            return ResponseEntity.created(location).body(user);
-        }
+        return ResponseEntity.created(location).build();
     }
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteUser(@PathVariable("id") Long id) {
 
-        userService.deleteUser(id);
-
+    @PutMapping(value = "/{username}")
+    public ResponseEntity<Object> updateUser(@PathVariable("username") String username, @RequestBody UserDto user) {
+        userService.updateUser(username, user);
         return ResponseEntity.noContent().build();
-
-    }
-    @PutMapping("{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable Long id, @RequestBody CreateUserDto newUser) {
-
-        UserDto dto = userService.updateUser(id, newUser);
-
-        return ResponseEntity.ok().body(dto);
     }
 
+    @DeleteMapping(value = "/{username}")
+    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
+        userService.deleteUser(username);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = "/{username}/authorities")
+    public ResponseEntity<Object> getUserAuthorities(@PathVariable("username") String username) {
+        return ResponseEntity.ok().body(userService.getAuthorities(username));
+    }
+
+    @PostMapping(value = "/{username}/authorities")
+    public ResponseEntity<Object> addUserAuthority(@PathVariable("username") String username, @RequestBody Map<String, Object> fields) {
+        try {
+            String authorityName = (String) fields.get("authority");
+            userService.addAuthority(username, authorityName);
+            return ResponseEntity.noContent().build();
+        }
+        catch (Exception ex) {
+            throw new BadRequestException();
+        }
+    }
+
+    @DeleteMapping(value = "/{username}/authorities/{authority}")
+    public ResponseEntity<Object> deleteUserAuthority(@PathVariable("username") String username, @PathVariable("authority") String authority) {
+        userService.removeAuthority(username, authority);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(value = "/{username}/password")
+    public ResponseEntity<Object> setPassword(@PathVariable("username") String username, @RequestBody String password) {
+        userService.setPassword(username, password);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{username}/{newsletterId}")
+    public void assignNewsletterToUser(@PathVariable("username") String username, @PathVariable("newsletterId") Long newsletterId){
+        userService.assignNewsletterToUser(username, newsletterId);
+    }
+
+    @PutMapping("{username}/{favouriteId}")
+    public void assignFavouriteToUser(@PathVariable("username") String username, @PathVariable("favouriteId") Long favouriteId){
+        userService.assignFavouriteToUser(username, favouriteId);
+    }
+}
 
 

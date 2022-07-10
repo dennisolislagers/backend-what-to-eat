@@ -15,13 +15,9 @@ import java.util.List;
 public class NewsletterService {
 
     private final NewsletterRepository newsletterRepository;
-    private final UserRepository userRepository;
 
-
-    public NewsletterService(NewsletterRepository newsletterRepository,
-                             UserRepository userRepository){
+    public NewsletterService(NewsletterRepository newsletterRepository){
         this.newsletterRepository = newsletterRepository;
-        this.userRepository = userRepository;
     }
 
     public List<NewsletterDto> getAllNewsletters(){
@@ -84,20 +80,7 @@ public class NewsletterService {
         }
     }
 
-    public void assignNewsletterToUser(Long id, Long userId){
-        var optionalNewsletter = newsletterRepository.findById(id);
-        var optionalUser = userRepository.findById(userId);
 
-        if(optionalUser.isPresent() && optionalNewsletter.isPresent()) {
-            var user = optionalUser.get();
-            var newsletter = optionalNewsletter.get();
-
-            newsletter.setUser(user);
-            newsletterRepository.save(newsletter);
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
 
     public NewsletterDto transferToDto(Newsletter newsletter) {
         var dto = new NewsletterDto();

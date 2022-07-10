@@ -4,6 +4,7 @@ package nl.novi.backendwhattoeat.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,20 +14,16 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    private String emailadress;
-    private String role;
-    private boolean enabled;
+    @Column(nullable = false)
+    private boolean enabled = true;
 
-
+    private String email;
 
     @OneToMany(
             targetEntity = Authority.class,
@@ -39,20 +36,12 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    List<Favourite> favourites;
+    List<Favourite> favourites = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    List<Newsletter> newsletters;
+    List<Newsletter> newsletters = new ArrayList<>();
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -71,20 +60,12 @@ public class User {
     }
 
 
-    public String getEmailadress() {
-        return emailadress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailadress(String emailadress) {
-        this.emailadress = emailadress;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 
@@ -103,6 +84,20 @@ public class User {
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
+
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+    public void addAuthority(String authorityString) {
+        this.authorities.add(new Authority(this.username, authorityString));
+    }
+    public void removeAuthority(Authority authority) {
+        this.authorities.remove(authority);
+    }
+    public void removeAuthority(String authorityString) {
+        this.authorities.removeIf(authority -> authority.getAuthority().equalsIgnoreCase(authorityString));
+    }
+
 
     public List<Favourite> getFavourites() {
         return favourites;
