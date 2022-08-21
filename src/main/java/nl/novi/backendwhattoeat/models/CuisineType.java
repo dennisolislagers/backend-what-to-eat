@@ -14,7 +14,6 @@ public class CuisineType {
     private String description;
 
     @OneToOne(mappedBy = "cuisineType")
-
     Menu menu;
 
     public Long getId() {

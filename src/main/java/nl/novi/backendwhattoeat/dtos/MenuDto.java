@@ -3,13 +3,11 @@ package nl.novi.backendwhattoeat.dtos;
 public class MenuDto {
     private Long id;
     private String title;
-    private String cuisineType;
-    private String healthLabel;
-    private String dietLabel;
-    private Boolean hasPhoto;
-    private Integer calories;
     private Integer portions;
-
+    private Integer calories;
+    private Boolean peanutAllergy;
+    private Boolean cowmilkAllergy;
+    private Boolean glutenAllergy;
 
     public Long getId() {
         return id;
@@ -27,36 +25,12 @@ public class MenuDto {
         this.title = title;
     }
 
-    public String getCuisineType() {
-        return cuisineType;
+    public Integer getPortions() {
+        return portions;
     }
 
-    public void setCuisineType(String cuisineType) {
-        this.cuisineType = cuisineType;
-    }
-
-    public String getHealthLabel() {
-        return healthLabel;
-    }
-
-    public void setHealthLabel(String healthLabel) {
-        this.healthLabel = healthLabel;
-    }
-
-    public String getDietLabel() {
-        return dietLabel;
-    }
-
-    public void setDietLabel(String dietLabel) {
-        this.dietLabel = dietLabel;
-    }
-
-    public Boolean getHasPhoto() {
-        return hasPhoto;
-    }
-
-    public void setHasPhoto(Boolean hasPhoto) {
-        this.hasPhoto = hasPhoto;
+    public void setPortions(Integer portions) {
+        this.portions = portions;
     }
 
     public Integer getCalories() {
@@ -67,12 +41,27 @@ public class MenuDto {
         this.calories = calories;
     }
 
-    public Integer getPortions() {
-        return portions;
+    public Boolean getPeanutAllergy() {
+        return peanutAllergy;
     }
 
-    public void setPortions(Integer portions) {
-        this.portions = portions;
+    public void setPeanutAllergy(Boolean peanutAllergy) {
+        this.peanutAllergy = peanutAllergy;
     }
 
+    public Boolean getCowmilkAllergy() {
+        return cowmilkAllergy;
+    }
+
+    public void setCowmilkAllergy(Boolean cowmilkAllergy) {
+        this.cowmilkAllergy = cowmilkAllergy;
+    }
+
+    public Boolean getGlutenAllergy() {
+        return glutenAllergy;
+    }
+
+    public void setGlutenAllergy(Boolean glutenAllergy) {
+        this.glutenAllergy = glutenAllergy;
+    }
 }

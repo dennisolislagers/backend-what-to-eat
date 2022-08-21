@@ -12,8 +12,5 @@ public interface MenuRepository extends JpaRepository <Menu, Long> {
 
     List<Menu> findAllMenusByCuisineTypeEqualsIgnoreCase(String cuisineType);
 
-    List<Menu> findAllMenusByHealthLabelEqualsIgnoreCase(String healthLabel);
-
-    List<Menu> findAllMenusByDietLabelEqualsIgnoreCase(String dietLabel);
-
+    List<Menu> findAllMenusByLabelEqualsIgnoreCase(String Label);
 }

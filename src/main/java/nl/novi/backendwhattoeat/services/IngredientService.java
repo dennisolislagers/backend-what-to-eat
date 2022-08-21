@@ -36,8 +36,8 @@ public class IngredientService {
         }
     }
 
-    public List<IngredientDto> findAllIngredientsByProductName(String productName) {
-        List<Ingredient> ingredientList = ingredientRepository.findIngredientsByProductNameEqualsIgnoreCase(productName);
+    public List<IngredientDto> findAllIngredientsByFoodId(String foodId) {
+        List<Ingredient> ingredientList = ingredientRepository.findIngredientsByFoodIdEqualsIgnoreCase(foodId);
         List<IngredientDto> ingredientDtoList = new ArrayList<>();
 
         for(Ingredient ingredient : ingredientList){
@@ -81,9 +81,12 @@ public class IngredientService {
         var dto = new IngredientDto();
 
         dto.id = ingredient.getId();
-        dto.productName = ingredient.getProductName();
-        dto.sort = ingredient.getSort();
-        dto.amount = ingredient.getAmount();
+        dto.foodId = ingredient.getfoodId();
+        dto.quantity = ingredient.getQuantity();
+        dto.measure = ingredient.getMeasure();
+        dto.weight = ingredient.getWeight();
+        dto.food = ingredient.getFood();
+        dto.foodCategory = ingredient.getFoodCategory();
 
         return dto;
     }
@@ -92,9 +95,12 @@ public class IngredientService {
         var ingredient = new Ingredient();
 
         ingredient.setId(dto.getId());
-        ingredient.setProductName(dto.getProductName());
-        ingredient.setSort(dto.getSort());
-        ingredient.setAmount(dto.getAmount());
+        ingredient.setFoodId(dto.getFoodId());
+        ingredient.setQuantity(dto.getQuantity());
+        ingredient.setMeasure(dto.getMeasure());
+        ingredient.setWeight(dto.getWeight());
+        ingredient.setFood(dto.getFood());
+        ingredient.setFoodCategory(dto.getFoodCategory);
 
         return ingredient;
     }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Menu {
@@ -23,15 +24,14 @@ public class Menu {
     @OneToOne
     CuisineType cuisineType;
 
-    @OneToMany(mappedBy = "menu")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany (mappedBy = "menu")
     @JsonIgnore
-    Collection<Ingredient> ingredients;
+    List <Label> labels;
 
     @OneToMany(mappedBy = "menu")
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    Collection<Label> labels;
+    Collection<MenuIngredient> menuIngredients;
 
 
     public Long getId() {
@@ -98,20 +98,20 @@ public class Menu {
         this.cuisineType = cuisineType;
     }
 
-    public Collection<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(Collection<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public Collection<Label> getLabels() {
+    public List<Label> getLabels() {
         return labels;
     }
 
-    public void setLabels(Collection<Label> labels) {
+    public void setLabels(List<Label> labels) {
         this.labels = labels;
+    }
+
+    public Collection<MenuIngredient> getMenuIngredients() {
+        return menuIngredients;
+    }
+
+    public void setMenuIngredients(Collection<MenuIngredient> menuIngredients) {
+        this.menuIngredients = menuIngredients;
     }
 }
 

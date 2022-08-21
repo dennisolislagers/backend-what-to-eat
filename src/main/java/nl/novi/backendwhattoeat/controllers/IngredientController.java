@@ -1,10 +1,8 @@
 package nl.novi.backendwhattoeat.controllers;
 
-import nl.novi.backendwhattoeat.dtos.FavouriteDto;
 import nl.novi.backendwhattoeat.dtos.IngredientDto;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.services.IngredientService;
-import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

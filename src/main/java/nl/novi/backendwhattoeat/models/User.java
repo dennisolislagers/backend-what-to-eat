@@ -37,15 +37,6 @@ public class User {
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    List<Favourite> favourites = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    List<Newsletter> newsletters = new ArrayList<>();
-
-
     public String getUsername() {
         return username;
     }
@@ -97,23 +88,7 @@ public class User {
 
     public void addAuthority(Authority authority) {
     }
-
     public void removeAuthority(Authority authorityToRemove) {
-    }
-    public List<Favourite> getFavourites() {
-        return favourites;
-    }
-
-    public void setFavourites(List<Favourite> favourites) {
-        this.favourites = favourites;
-    }
-
-    public List<Newsletter> getNewsletters() {
-        return newsletters;
-    }
-
-    public void setNewsletters(List<Newsletter> newsletters) {
-        this.newsletters = newsletters;
     }
 
 }

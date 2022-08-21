@@ -1,11 +1,12 @@
 package nl.novi.backendwhattoeat.services;
 
 import nl.novi.backendwhattoeat.dtos.MenuDto;
-import nl.novi.backendwhattoeat.dtos.CreateMenuDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Menu;
+import nl.novi.backendwhattoeat.repositories.CuisineTypeRepository;
+import nl.novi.backendwhattoeat.repositories.IngredientRepository;
+import nl.novi.backendwhattoeat.repositories.LabelRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,8 +18,20 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    public MenuService(MenuRepository menuRepository){
+    private final CuisineTypeRepository cuisineTypeRepository;
+
+    private final IngredientRepository ingredientRepository;
+
+    private final LabelRepository labelRepository;
+
+    public MenuService(MenuRepository menuRepository,
+                       CuisineTypeRepository cuisineTypeRepository,
+                       IngredientRepository ingredientRepository,
+                       LabelRepository labelRepository) {
         this.menuRepository = menuRepository;
+        this.cuisineTypeRepository = cuisineTypeRepository;
+        this.ingredientRepository = ingredientRepository;
+        this.labelRepository = labelRepository;
     }
 
     public List<MenuDto> getAllMenus() {
@@ -62,8 +75,8 @@ public class MenuService {
         }
         return menuDtoList;
     }
-    public List<MenuDto> getAllMenusByHealthLabel (String healthLabel) {
-        List<Menu> menuList = menuRepository.findAllMenusByHealthLabelEqualsIgnoreCase(healthLabel);
+    public List<MenuDto> getAllMenusByHealthLabel (String label) {
+        List<Menu> menuList = menuRepository.findAllMenusByLabelEqualsIgnoreCase(label);
         List<MenuDto> menuDtoList = new ArrayList<>();
 
         for(Menu menu : menuList){
@@ -73,17 +86,7 @@ public class MenuService {
         return menuDtoList;
     }
 
-    public List<MenuDto> getAllMenusByDietLabel (String dietLabel) {
-        List<Menu> menuList = menuRepository.findAllMenusByDietLabelEqualsIgnoreCase(dietLabel);
-        List<MenuDto> menuDtoList = new ArrayList<>();
-
-        for(Menu menu : menuList){
-            MenuDto dto = transferToDto(menu);
-            menuDtoList.add(dto);
-        }
-        return menuDtoList;
-    }
-    public MenuDto addMenu(CreateMenuDto dto) {
+    public MenuDto addMenu(MenuDto dto) {
         Menu menu = transferToMenu(dto);
         menuRepository.save(menu);
         return transferToDto(menu);
@@ -93,7 +96,7 @@ public class MenuService {
         menuRepository.deleteById(id);
     }
 
-    public MenuDto updateMenu(Long id, CreateMenuDto inputDto) {
+    public MenuDto updateMenu(Long id, MenuDto inputDto) {
 
         if (menuRepository.findById(id).isPresent()){
 
@@ -119,28 +122,55 @@ public class MenuService {
 
         dto.setId(menu.getId());
         dto.setTitle(menu.getTitle());
-        dto.setCuisineType(menu.getCuisineType());
-        dto.setHealthLabel(menu.getHealthLabel());
-        dto.setDietLabel(menu.getDietLabel());
-        dto.setHasPhoto(menu.getHasPhoto());
-        dto.setCalories(menu.getCalories());
         dto.setPortions(menu.getPortions());
+        dto.setCalories(menu.getCalories());
+        dto.setPeanutAllergy(menu.getPeanutAllergy());
+        dto.setCowmilkAllergy(menu.getCowmilkAllergy());
+        dto.setGlutenAllergy(menu.getGlutenAllergy());
 
         return dto;
     }
 
-    public Menu transferToMenu(CreateMenuDto createMenu){
+    public Menu transferToMenu(MenuDto dto){
         var menu = new Menu();
 
-        menu.setTitle(createMenu.getTitle());
-        menu.setCuisineType(createMenu.getCuisineType());
-        menu.setHealthLabel(createMenu.getHealthLabel());
-        menu.setDietLabel(createMenu.getDietLabel());
-        menu.setCalories(createMenu.getCalories());
-        menu.setPortions(createMenu.getPortions());
-        menu.setHasPhoto(createMenu.getHasPhoto());
+        menu.setId(dto.getId());
+        menu.setTitle(dto.getTitle());
+        menu.setPortions(dto.getPortions());
+        menu.setCalories(dto.getCalories());
+        menu.setPeanutAllergy(dto.getPeanutAllergy());
+        menu.setCowmilkAllergy(dto.getCowmilkAllergy());
+        menu.setGlutenAllergy(dto.getGlutenAllergy());
 
         return menu;
+    }
+    public void assignCuisineTypeToMenu(Long id, Long cuisineTypeId){
+        var optionalMenu = menuRepository.findById(id);
+        var optionalCuisineType = cuisineTypeRepository.findById(cuisineTypeId);
+
+        if(optionalMenu.isPresent() && optionalCuisineType.isPresent()) {
+            var menu = optionalMenu.get();
+            var cuisineType = optionalCuisineType.get();
+
+            menu.setCuisineType(cuisineType);
+            menuRepository.save(menu);
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+    public void assignLabelToMenu(Long id, Long labelId){
+        var optionalMenu = menuRepository.findById(id);
+        var optionalLabel = labelRepository.findById(labelId);
+
+        if(optionalMenu.isPresent() && optionalLabel.isPresent()) {
+            var menu = optionalMenu.get();
+            var label = optionalLabel.get();
+
+            menu.setLabel(label);
+            menuRepository.save(menu);
+        } else {
+            throw new RecordNotFoundException();
+        }
     }
 
 

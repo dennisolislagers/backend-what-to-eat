@@ -1,6 +1,5 @@
 package nl.novi.backendwhattoeat.controllers;
 
-import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

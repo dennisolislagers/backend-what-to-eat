@@ -1,9 +1,7 @@
 package nl.novi.backendwhattoeat.controllers;
 
-import nl.novi.backendwhattoeat.dtos.CreateMenuDto;
 import nl.novi.backendwhattoeat.dtos.IngredientDto;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
-import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import nl.novi.backendwhattoeat.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
