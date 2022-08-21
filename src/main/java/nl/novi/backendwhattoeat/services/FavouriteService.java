@@ -1,12 +1,9 @@
 package nl.novi.backendwhattoeat.services;
 
-import nl.novi.backendwhattoeat.controllers.FavouriteController;
 import nl.novi.backendwhattoeat.dtos.FavouriteDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
-import nl.novi.backendwhattoeat.models.Favourite;
 import nl.novi.backendwhattoeat.repositories.FavouriteRepository;
 import nl.novi.backendwhattoeat.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 

@@ -6,8 +6,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
-
 
 @Entity
 public class Menu {
@@ -16,23 +14,24 @@ public class Menu {
     Long id;
 
     private String title;
-    private String cuisineType;
-    private String healthLabel;
-    private String dietLabel;
     private Integer portions;
     private Integer calories;
-    private Boolean hasPhoto;
+    private Boolean peanutAllergy;
+    private Boolean cowmilkAllergy;
+    private Boolean glutenAllergy;
 
-    @OneToMany (mappedBy = "menu")
+    @OneToOne
+    CuisineType cuisineType;
+
+    @OneToMany(mappedBy = "menu")
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
-    Collection<MenuIngredient> menuIngredients;
+    Collection<Ingredient> ingredients;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
+    @OneToMany(mappedBy = "menu")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    Collection<Label> labels;
 
 
     public Long getId() {
@@ -51,38 +50,6 @@ public class Menu {
         this.title = title;
     }
 
-    public String getCuisineType() {
-        return cuisineType;
-    }
-
-    public void setCuisineType(String cuisineType) {
-        this.cuisineType = cuisineType;
-    }
-
-    public String getHealthLabel() {
-        return healthLabel;
-    }
-
-    public void setHealthLabel(String healthLabel) {
-        this.healthLabel = healthLabel;
-    }
-
-    public String getDietLabel() {
-        return dietLabel;
-    }
-
-    public void setDietLabel(String dietLabel) {
-        this.dietLabel = dietLabel;
-    }
-
-    public Boolean getHasPhoto() {
-        return hasPhoto;
-    }
-
-    public void setHasPhoto(Boolean hasPhoto) {
-        this.hasPhoto = hasPhoto;
-    }
-
     public Integer getPortions() {
         return portions;
     }
@@ -99,20 +66,52 @@ public class Menu {
         this.calories = calories;
     }
 
-    public Collection<MenuIngredient> getMenuIngredients() {
-        return menuIngredients;
+    public Boolean getPeanutAllergy() {
+        return peanutAllergy;
     }
 
-    public void setMenuIngredients(Collection<MenuIngredient> menuIngredients) {
-        this.menuIngredients = menuIngredients;
+    public void setPeanutAllergy(Boolean peanutAllergy) {
+        this.peanutAllergy = peanutAllergy;
     }
 
-    public User getUser() {
-        return user;
+    public Boolean getCowmilkAllergy() {
+        return cowmilkAllergy;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCowmilkAllergy(Boolean cowmilkAllergy) {
+        this.cowmilkAllergy = cowmilkAllergy;
+    }
+
+    public Boolean getGlutenAllergy() {
+        return glutenAllergy;
+    }
+
+    public void setGlutenAllergy(Boolean glutenAllergy) {
+        this.glutenAllergy = glutenAllergy;
+    }
+
+    public CuisineType getCuisineType() {
+        return cuisineType;
+    }
+
+    public void setCuisineType(CuisineType cuisineType) {
+        this.cuisineType = cuisineType;
+    }
+
+    public Collection<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Collection<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Collection<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(Collection<Label> labels) {
+        this.labels = labels;
     }
 }
 

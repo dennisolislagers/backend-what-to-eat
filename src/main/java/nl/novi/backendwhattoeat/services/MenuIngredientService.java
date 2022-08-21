@@ -5,8 +5,6 @@ import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Ingredient;
 import nl.novi.backendwhattoeat.models.Menu;
-import nl.novi.backendwhattoeat.models.MenuIngredient;
-import nl.novi.backendwhattoeat.models.MenuIngredientKey;
 import nl.novi.backendwhattoeat.repositories.IngredientRepository;
 import nl.novi.backendwhattoeat.repositories.MenuIngredientRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
