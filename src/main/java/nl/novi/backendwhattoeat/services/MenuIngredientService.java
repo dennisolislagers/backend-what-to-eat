@@ -6,7 +6,6 @@ import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Ingredient;
 import nl.novi.backendwhattoeat.models.Menu;
 import nl.novi.backendwhattoeat.repositories.IngredientRepository;
-import nl.novi.backendwhattoeat.repositories.MenuIngredientRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
