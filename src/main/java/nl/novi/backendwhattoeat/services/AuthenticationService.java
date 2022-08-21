@@ -3,7 +3,7 @@ package nl.novi.backendwhattoeat.services;
 
 import nl.novi.backendwhattoeat.dtos.AuthenticationRequestDto;
 import nl.novi.backendwhattoeat.dtos.AuthenticationResponseDto;
-import nl.novi.backendwhattoeat.security.JwtUtil;
+import nl.novi.backendwhattoeat.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +25,7 @@ public class AuthenticationService {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    JwtUtil jwtUtil;
+    JwtService jwtUtil;
 
     public AuthenticationResponseDto authenticateUser(AuthenticationRequestDto authenticationRequestDto) {
 

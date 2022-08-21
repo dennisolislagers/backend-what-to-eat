@@ -10,14 +10,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
-
+@CrossOrigin
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -25,36 +26,46 @@ public class UserController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<Object> getUsers() {
-        return ResponseEntity.ok().body(userService.getUsers());
+    public ResponseEntity<List<UserDto>> getUsers() {
+
+        List<UserDto> userDtos = userService.getUsers();
+
+        return ResponseEntity.ok().body(userDtos);
     }
 
     @GetMapping(value = "/{username}")
-    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
-        return ResponseEntity.ok().body(userService.getUser(username));
+    public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
+
+        UserDto optionalUser = userService.getUser(username);
+
+
+        return ResponseEntity.ok().body(optionalUser);
+
     }
 
-    @PostMapping(value = "register")
-    public ResponseEntity<Object> createUser(@RequestBody UserDto user) {
-        String newUsername = userService.createUser(user);
+    @PostMapping(value = "")
+    public ResponseEntity<UserDto> createKlant(@RequestBody UserDto dto) {
+        ;
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{username}")
-                .buildAndExpand(newUsername)
-                .toUri();
+        String newUsername = userService.createUser(dto);
+        userService.addAuthority(newUsername, "ROLE_USER");
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
+                .buildAndExpand(newUsername).toUri();
 
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping(value = "/{username}")
-    public ResponseEntity<Object> updateUser(@PathVariable("username") String username, @RequestBody UserDto user) {
-        userService.updateUser(username, user);
+    public ResponseEntity<UserDto> updateKlant(@PathVariable("username") String username, @RequestBody UserDto dto) {
+
+        userService.updateUser(username, dto);
+
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value = "/{username}")
-    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
+    public ResponseEntity<Object> deleteKlant(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
@@ -70,8 +81,7 @@ public class UserController {
             String authorityName = (String) fields.get("authority");
             userService.addAuthority(username, authorityName);
             return ResponseEntity.noContent().build();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new BadRequestException();
         }
     }
@@ -81,13 +91,6 @@ public class UserController {
         userService.removeAuthority(username, authority);
         return ResponseEntity.noContent().build();
     }
-
-    @PatchMapping(value = "/{username}/password")
-    public ResponseEntity<Object> setPassword(@PathVariable("username") String username, @RequestBody String password) {
-        userService.setPassword(username, password);
-        return ResponseEntity.noContent().build();
-    }
-
     @PutMapping("{username}/{newsletterId}")
     public void assignNewsletterToUser(@PathVariable("username") String username, @PathVariable("newsletterId") Long newsletterId){
         userService.assignNewsletterToUser(username, newsletterId);

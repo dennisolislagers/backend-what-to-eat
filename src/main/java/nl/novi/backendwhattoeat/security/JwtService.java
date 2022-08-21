@@ -11,20 +11,24 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtUtil {
+public class JwtService {
 
-    private final static String SECRET_KEY = "secret";
+    private final static String SECRET_KEY = "dennis the menace is the best";
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-    private <T> T extractClaim(String token, Function<Claims, T>
-            claimsResolver) {
+
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return
                 Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
@@ -32,6 +36,7 @@ public class JwtUtil {
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
+
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userDetails.getUsername());
@@ -54,4 +59,5 @@ public class JwtUtil {
         return username.equals(userDetails.getUsername()) &&
                 !isTokenExpired(token);
     }
+
 }

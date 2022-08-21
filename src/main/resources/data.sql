@@ -1,7 +1,10 @@
 INSERT INTO users (username, password, email, enabled)
- VALUES ('ollie', '$2a$12$w/HpVBHuWixcUMRL3yAuxekpAmBYwEkz6b0HXmJFM8MUazLKCVhYe', 'dennis@hotmail.com', true),
-        ('sjuulke', '$2a$12$4EXX0nIwYjNcGcr5BVZ1heBUi3AX2wFvioyFxkdy/D5IC1u/n84o6', 'sjuulke@hotmail.com', true),
-        ('iris', '$2a$12$npvmBuoLq4VoC0cgcM1ZzeSv73TtxJwleXme2/ghNDnSLTfShH.F2', 'iris@gmail.com', true);
+ VALUES ('ollie', '$2a$12$JyzAjJPzEd4CGAEHFsRnMuaWRFz7tU1OMwGWYrgReLec2M1zd7d6e', 'dennis@hotmail.com', TRUE),
+--         wachtwoord = sjuulke
+        ('sjuulke', '$2a$12$4EXX0nIwYjNcGcr5BVZ1heBUi3AX2wFvioyFxkdy/D5IC1u/n84o6', 'sjuulke@hotmail.com', TRUE),
+--         wachtwoord = brokjes
+        ('iris', '$2a$12$4xqWv58JkELNPywebs15WuydhmY2JAeQ17pnxK8k9.YaLGfOOh1aW', 'iris@gmail.com', TRUE);
+--         wachtwoord = uitslapen
 
 INSERT INTO favourite (id, title, text, rating)
  VALUES (1, 'sajoer boontjes', 'ze smaken verukkelijk', 9),
@@ -9,9 +12,9 @@ INSERT INTO favourite (id, title, text, rating)
         (3, 'spek met eieren', 'erg lekker, maar niet goed voor de lijn', 9);
 
 INSERT INTO menu (id, title, cuisine_type, health_label, diet_label, portions, calories, has_photo)
- VALUES (1, 'sajoer boontjes', 'dinner', 'balanced', 'fat-free', 4, 850, true),
-        (2, 'kippenvleugeltjes', 'snack', 'koolhydraatarm', 'keto', 8, 630, true),
-        (3, 'spek met eieren', 'breakfast', 'balanced', 'fishfree', 1, 490, true);
+ VALUES (1, 'sajoer boontjes', 'dinner', 'balanced', 'fat-free', 4, 850, TRUE),
+        (2, 'kippenvleugeltjes', 'snack', 'koolhydraatarm', 'keto', 8, 630, TRUE),
+        (3, 'spek met eieren', 'breakfast', 'balanced', 'fishfree', 1, 490, TRUE);
 
 INSERT INTO ingredient (id, product_name, sort, amount)
  VALUES (1, 'tomatoes', 'vegetables', '4 pieces'),
@@ -37,6 +40,6 @@ INSERT INTO menu_ingredient (menu_id, ingredient_id)
         (3, 2);
 
 INSERT INTO authorities (username, authority)
-VALUES ('sjuulke', 'USER'),
-       ('iris', 'USER'),
-        ('ollie', 'ADMIN');
+VALUES  ('sjuulke', 'ROLE_USER'),
+        ('iris', 'ROLE_USER'),
+        ('ollie', 'ROLE_ADMIN');

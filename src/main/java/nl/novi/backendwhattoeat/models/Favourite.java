@@ -13,9 +13,8 @@ public class Favourite {
     private Integer rating;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_username", referencedColumnName = "username")
     private User user;
-
 
     public Long getId() {
         return id;

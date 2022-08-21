@@ -23,6 +23,10 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
+    @Column
+    private String apikey;
+
+    @Column
     private String email;
 
     @OneToMany(
@@ -32,7 +36,6 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
-
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -68,13 +71,20 @@ public class User {
         this.email = email;
     }
 
-
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getApikey() {
+        return apikey;
+    }
+
+    public void setApikey(String apikey) {
+        this.apikey = apikey;
     }
 
     public Set<Authority> getAuthorities() {
@@ -86,19 +96,10 @@ public class User {
     }
 
     public void addAuthority(Authority authority) {
-        this.authorities.add(authority);
-    }
-    public void addAuthority(String authorityString) {
-        this.authorities.add(new Authority(this.username, authorityString));
-    }
-    public void removeAuthority(Authority authority) {
-        this.authorities.remove(authority);
-    }
-    public void removeAuthority(String authorityString) {
-        this.authorities.removeIf(authority -> authority.getAuthority().equalsIgnoreCase(authorityString));
     }
 
-
+    public void removeAuthority(Authority authorityToRemove) {
+    }
     public List<Favourite> getFavourites() {
         return favourites;
     }

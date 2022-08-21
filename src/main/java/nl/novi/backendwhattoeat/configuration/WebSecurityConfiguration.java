@@ -1,6 +1,7 @@
 package nl.novi.backendwhattoeat.configuration;
 
 import nl.novi.backendwhattoeat.security.JwtRequestFilter;
+import nl.novi.backendwhattoeat.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,64 +12,58 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
-    JwtRequestFilter jwtRequestFilter;
+    public CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authentication) throws Exception {
+        authentication.userDetailsService(customUserDetailsService);
+    }
+
+    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean () throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
     @Bean
-    public UserDetailsService userDetailServiceBean() throws Exception{
-        return super.userDetailsServiceBean();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder () { return new BCryptPasswordEncoder();}
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth
-                .jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery("select username, authority from users where username=?");
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
-                .httpBasic()
-                .and()
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/newsletters").hasAuthority("ADMIN")
-                .antMatchers("/ratings/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.GET, "menus").authenticated()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/newsletters").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/favourites").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/ingredients").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/menus").hasRole("ADMIN")
+                .antMatchers("/authenticated").authenticated()
+                .antMatchers("/authenticate").permitAll()
                 .anyRequest().permitAll()
                 .and()
-                .cors()
-                .and()
-                .csrf().disable()
-                .formLogin().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 }
 
