@@ -2,6 +2,7 @@ package nl.novi.backendwhattoeat.controllers;
 
 import nl.novi.backendwhattoeat.dtos.IngredientDto;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
+import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import nl.novi.backendwhattoeat.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,19 +32,16 @@ public class MenuController {
                                                      Optional<String> title,
                                                      @RequestParam(value = "cuisine_type", required = false)
                                                      Optional<String> cuisineType,
-                                                     @RequestParam(value = "health_label", required = false)
-                                                     Optional<String> healthLabel,
-                                                     @RequestParam(value = "diet_label", required = false)
-                                                     Optional<String> dietLabel) {
+                                                     @RequestParam(value = "label", required = false)
+                                                     Optional<String> label)
+                                                      {
         List<MenuDto> dtos;
-        if (title.isPresent() && cuisineType.isEmpty() && healthLabel.isEmpty() && dietLabel.isEmpty()) {
+        if (title.isPresent() && cuisineType.isEmpty() && label.isEmpty()) {
             dtos = menuService.getAllMenusByTitle (title.get());
-        } else if (title.isEmpty() && cuisineType.isPresent() && healthLabel.isEmpty() && dietLabel.isEmpty()){
+        } else if (title.isEmpty() && cuisineType.isPresent() && label.isEmpty()){
             dtos = menuService.getAllMenusByCuisineType(cuisineType.get());
-        } else if (title.isEmpty() && cuisineType.isEmpty() && healthLabel.isPresent() && dietLabel.isEmpty()){
-            dtos = menuService.getAllMenusByHealthLabel(healthLabel.get());
-        } else if (title.isEmpty() && cuisineType.isEmpty() && healthLabel.isEmpty() && dietLabel.isPresent()){
-            dtos = menuService.getAllMenusByDietLabel(dietLabel.get());
+        } else if (title.isEmpty() && cuisineType.isEmpty() && label.isPresent()){
+            dtos = menuService.getAllMenusByLabel(label.get());
         } else {
             dtos = menuService.getAllMenus();
         }
@@ -67,9 +65,9 @@ public class MenuController {
 
 
     @PostMapping
-    public ResponseEntity<Object> addMenu(@RequestBody CreateMenuDto createMenuDto){
+    public ResponseEntity<Object> addMenu(@RequestBody MenuDto menuDto){
 
-        final MenuDto menu = menuService.addMenu(createMenuDto);
+        final MenuDto menu = menuService.addMenu(menuDto);
 
         final URI location = URI.create("/menus/" + menu.getId());
         return ResponseEntity.created(location).body(menu);
@@ -86,7 +84,7 @@ public class MenuController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> updateMenu(@PathVariable Long id, @RequestBody CreateMenuDto newMenu) {
+    public ResponseEntity<Object> updateMenu(@PathVariable Long id, @RequestBody MenuDto newMenu) {
 
         MenuDto dto = menuService.updateMenu(id, newMenu);
 

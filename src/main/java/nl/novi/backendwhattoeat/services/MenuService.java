@@ -20,19 +20,30 @@ public class MenuService {
 
     private final CuisineTypeRepository cuisineTypeRepository;
 
+    private final CuisineTypeService cuisineTypeService;
+
     private final IngredientRepository ingredientRepository;
+
+    private final IngredientService ingredientService;
 
     private final LabelRepository labelRepository;
 
-    public MenuService(MenuRepository menuRepository,
-                       CuisineTypeRepository cuisineTypeRepository,
-                       IngredientRepository ingredientRepository,
-                       LabelRepository labelRepository) {
+    private final LabelService labelService;
+
+    public MenuService(MenuRepository menuRepository, CuisineTypeRepository cuisineTypeRepository,
+                       CuisineTypeService cuisineTypeService, IngredientRepository ingredientRepository,
+                       IngredientService ingredientService, LabelRepository labelRepository,
+                       LabelService labelService) {
         this.menuRepository = menuRepository;
         this.cuisineTypeRepository = cuisineTypeRepository;
+        this.cuisineTypeService = cuisineTypeService;
         this.ingredientRepository = ingredientRepository;
+        this.ingredientService = ingredientService;
         this.labelRepository = labelRepository;
+        this.labelService = labelService;
     }
+
+}
 
     public List<MenuDto> getAllMenus() {
         List<Menu> menuList = menuRepository.findAll();
@@ -75,7 +86,7 @@ public class MenuService {
         }
         return menuDtoList;
     }
-    public List<MenuDto> getAllMenusByHealthLabel (String label) {
+    public List<MenuDto> getAllMenusByLabel (String label) {
         List<Menu> menuList = menuRepository.findAllMenusByLabelEqualsIgnoreCase(label);
         List<MenuDto> menuDtoList = new ArrayList<>();
 
@@ -115,6 +126,19 @@ public class MenuService {
 
         }
 
+    }
+
+    public List <MenuDto> transferMenuListToDtoList(List<Menu> menus){
+        List<MenuDto> menuDtoList = new ArrayList<>();
+
+        for(Menu menu : menus){
+            MenuDto dto = transferToDto(menu);
+            if(menu.getCuisineType() != null){
+                dto.setCuisineTypeDto(cuisineTypeService.transferToDto(menu.getCuisineType()))
+            }
+            menuDtoList.add(dto);
+        }
+        return menuDtoList;
     }
 
     public MenuDto transferToDto(Menu menu){
@@ -158,20 +182,7 @@ public class MenuService {
             throw new RecordNotFoundException();
         }
     }
-    public void assignLabelToMenu(Long id, Long labelId){
-        var optionalMenu = menuRepository.findById(id);
-        var optionalLabel = labelRepository.findById(labelId);
 
-        if(optionalMenu.isPresent() && optionalLabel.isPresent()) {
-            var menu = optionalMenu.get();
-            var label = optionalLabel.get();
-
-            menu.setLabel(label);
-            menuRepository.save(menu);
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
 
 
 }

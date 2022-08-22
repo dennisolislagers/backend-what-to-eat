@@ -3,10 +3,12 @@ package nl.novi.backendwhattoeat.dtos;
 public class IngredientDto {
 
     public Long id;
-    public String productName;
-    public String sort;
-    public String amount;
-
+    public String foodId;
+    public Integer quantity;
+    public String measure;
+    public Integer weight;
+    public String food;
+    public String foodCategory;
 
     public Long getId() {
         return id;
@@ -16,27 +18,51 @@ public class IngredientDto {
         this.id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getFoodId() {
+        return foodId;
     }
 
-    public void setProductName(String product) {
-        this.productName = productName;
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
-    public String getSort() {
-        return sort;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getMeasure() {
+        return measure;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getFood() {
+        return food;
+    }
+
+    public void setFood(String food) {
+        this.food = food;
+    }
+
+    public String getFoodCategory() {
+        return foodCategory;
+    }
+
+    public void setFoodCategory(String foodCategory) {
+        this.foodCategory = foodCategory;
     }
 }
