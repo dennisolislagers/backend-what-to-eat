@@ -34,10 +34,10 @@ public class CuisineTypeService {
             throw new RecordNotFoundException("No cuisinetype found");
         }
     }
-    public CuisineTypeDto addCuisineType(CuisineTypeDto cuisineTypeDto) {
-        CuisineType ct =  transferToCuisineType(cuisineTypeDto);
-        cuisineTypeRepository.save(ct);
-        return cuisineTypeDto;
+    public CuisineTypeDto addCuisineType(CuisineTypeDto dto) {
+        CuisineType cuisineType = transferToCuisineType(dto);
+        cuisineTypeRepository.save(cuisineType);
+        return transferToDto(cuisineType);
     }
     public void deleteCuisineType(Long id) {
         cuisineTypeRepository.deleteById(id);
@@ -57,18 +57,18 @@ public class CuisineTypeService {
         var dto = new CuisineTypeDto();
 
         dto.id = cuisineType.getId();
-        dto.getName = cuisineType.getName();
-        dto.getDescription = cuisineType.getDescription();
+        dto.name = cuisineType.getName();
+        dto.description = cuisineType.getDescription();
 
         return dto;
     }
-    public CuisineType transferToCuisineType (CuisineType Dto){
+    public CuisineType transferToCuisineType (CuisineTypeDto dto){
         var cuisineType = new CuisineType();
 
-        cuisineTypoe.setId(dto.getId());
+        cuisineType.setId(dto.getId());
         cuisineType.setName(dto.getName());
         cuisineType.setDescription(dto.getDescription());
 
-        return cuisineType
+        return cuisineType;
     }
 }

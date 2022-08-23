@@ -64,4 +64,7 @@ public class MenuDto {
     public void setGlutenAllergy(Boolean glutenAllergy) {
         this.glutenAllergy = glutenAllergy;
     }
+
+    public void setCuisineTypeDto(CuisineTypeDto transferToDto) {
+    }
 }

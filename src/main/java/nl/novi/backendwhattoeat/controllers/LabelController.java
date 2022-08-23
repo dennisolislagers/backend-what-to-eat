@@ -47,7 +47,7 @@ public class LabelController {
 
     @PutMapping("/labels/{id}")
     public LabelDto updateLabel(@PathVariable("id") Long id, @RequestBody LabelDto labelDto) {
-        labelService.updateLabel(id, LabelDto);
+        labelService.updateLabel(id, labelDto);
         return labelDto;
     }
 }

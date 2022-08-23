@@ -81,7 +81,7 @@ public class IngredientService {
         var dto = new IngredientDto();
 
         dto.id = ingredient.getId();
-        dto.foodId = ingredient.getfoodId();
+        dto.foodId = ingredient.getFoodId();
         dto.quantity = ingredient.getQuantity();
         dto.measure = ingredient.getMeasure();
         dto.weight = ingredient.getWeight();
@@ -100,7 +100,7 @@ public class IngredientService {
         ingredient.setMeasure(dto.getMeasure());
         ingredient.setWeight(dto.getWeight());
         ingredient.setFood(dto.getFood());
-        ingredient.setFoodCategory(dto.getFoodCategory);
+        ingredient.setFoodCategory(dto.getFoodCategory());
 
         return ingredient;
     }

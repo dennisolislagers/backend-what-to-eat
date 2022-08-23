@@ -21,17 +21,10 @@ public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
-    private final NewsletterRepository newsletterRepository;
-    private final FavouriteRepository favouriteRepository;
-
-
-    public UserService(UserRepository userRepository,
-                       NewsletterRepository newsletterRepository,
-                       FavouriteRepository favouriteRepository) {
+    
+    public UserService(UserRepository userRepository) {
 
         this.userRepository = userRepository;
-        this.newsletterRepository = newsletterRepository;
-        this.favouriteRepository = favouriteRepository;
     }
 
     public boolean userExists(String username) {
@@ -124,37 +117,5 @@ public class UserService {
 
         return user;
     }
-
-    public void assignNewsletterToUser(String username,  Long newsletterId){
-        var optionalUser = userRepository.findById(username);
-        var optionalNewsletter = newsletterRepository.findById(newsletterId);
-
-
-        if(optionalUser.isPresent() && optionalNewsletter.isPresent()) {
-            var user = optionalUser.get();
-            var newsletter = optionalNewsletter.get();
-
-            newsletter.setUser(user);
-            newsletterRepository.save(newsletter);
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
-    public void assignFavouriteToUser(String username, Long favouriteId) {
-        var optionalFavourite = favouriteRepository.findById(favouriteId);
-        var optionalUser = userRepository.findById(username);
-
-        if (optionalUser.isPresent() && optionalFavourite.isPresent()){
-            var user = optionalUser.get();
-            var favourite = optionalFavourite.get();
-
-            favourite.setUser(user);
-            favouriteRepository.save(favourite);
-        }
-        else{
-            throw new RecordNotFoundException();
-        }
-    }
-
 
 }

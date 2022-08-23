@@ -91,15 +91,6 @@ public class UserController {
         userService.removeAuthority(username, authority);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("{username}/{newsletterId}")
-    public void assignNewsletterToUser(@PathVariable("username") String username, @PathVariable("newsletterId") Long newsletterId){
-        userService.assignNewsletterToUser(username, newsletterId);
-    }
-
-    @PutMapping("{username}/{favouriteId}")
-    public void assignFavouriteToUser(@PathVariable("username") String username, @PathVariable("favouriteId") Long favouriteId){
-        userService.assignFavouriteToUser(username, favouriteId);
-    }
 }
 
 

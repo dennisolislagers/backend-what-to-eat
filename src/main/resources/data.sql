@@ -1,26 +1,19 @@
 INSERT INTO users (username, password, email, enabled)
- VALUES ('ollie', '$2a$12$JyzAjJPzEd4CGAEHFsRnMuaWRFz7tU1OMwGWYrgReLec2M1zd7d6e', 'dennis@hotmail.com', TRUE),
---         wachtwoord = sjuulke
-        ('sjuulke', '$2a$12$4EXX0nIwYjNcGcr5BVZ1heBUi3AX2wFvioyFxkdy/D5IC1u/n84o6', 'sjuulke@hotmail.com', TRUE),
---         wachtwoord = brokjes
-        ('iris', '$2a$12$4xqWv58JkELNPywebs15WuydhmY2JAeQ17pnxK8k9.YaLGfOOh1aW', 'iris@gmail.com', TRUE);
---         wachtwoord = uitslapen
+ VALUES ('dennis', '$2a$12$UCRRvxXxgmQCu.ePVkh1RudePmxuamzxOK9rKiQyZ2snp.NaBdvmy', 'dennis@hotmail.com', TRUE)
+        ('iris', '$2a$12$3OO.Q6jXqHVK1zJvAqEit.4k4En0Lf2bLadIZn4cd/kVl.XDSnAjC', 'iris@gmail.com', TRUE);
+        ('sjuul', '$2a$12$RONwhcbHcBNZYUkYuglRNeuk7MKp6V0LpRsPNVd5FmUgHepYkTr6C', 'sjuulke@hotmail.com', TRUE),
 
-INSERT INTO favourite (id, title, text, rating)
- VALUES (1, 'sajoer boontjes', 'ze smaken verukkelijk', 9),
-        (2, 'kippenvleugeltjes', 'heel erg pittig', 8),
-        (3, 'spek met eieren', 'erg lekker, maar niet goed voor de lijn', 9);
 
-INSERT INTO menu (id, title, cuisine_type, health_label, diet_label, portions, calories, has_photo)
- VALUES (1, 'sajoer boontjes', 'dinner', 'balanced', 'fat-free', 4, 850, TRUE),
-        (2, 'kippenvleugeltjes', 'snack', 'koolhydraatarm', 'keto', 8, 630, TRUE),
-        (3, 'spek met eieren', 'breakfast', 'balanced', 'fishfree', 1, 490, TRUE);
+INSERT INTO menu (id, title, portions, calories, peanut_allergy, cowmilk_allergy, gluten_allergy)
+ VALUES (1, 'sajoer boontjes', 4, 850, TRUE, TRUE, TRUE),
+        (2, 'kippenvleugeltjes', 8, 630, FALSE, FALSE, FALSE),
+        (3, 'spek met eieren', 1, 490, FALSE, FALSE);
 
-INSERT INTO ingredient (id, product_name, sort, amount)
- VALUES (1, 'tomatoes', 'vegetables', '4 pieces'),
-        (2, 'potatoes', 'vegetables', '500 grams'),
-        (3, 'eggs', 'n/a', '2 pieces'),
-        (4, 'salt', 'spices', '1 theespoon'),
+INSERT INTO ingredient (id, food_id, quantity, measure, weight, food, food_category)
+ VALUES (1, 'tomatoes', 1, 'pieces', 1, 'vegetables', 'greengrocer' ),
+        (2, 'potatoes', 500, 'grams' , 500, 'vegetables', 'greengrocer'),
+        (3, 'eggs', 2, 'pieces', 2, 'diary', 'versmarkt'),
+        (4, 'salt', 1, 'theespoon'),
         (5, 'ribs', 'meat', '500 grams');
 
 INSERT INTO newsletter (id, title, text, post_time)

@@ -64,7 +64,7 @@ public class LabelService {
         storedLabel.setType(labelDto.getType());
         storedLabel.setWebLabel(labelDto.getWebLabel());
         storedLabel.setApiParameter(labelDto.getApiParameter());
-        storedLabel.setDefinition(labelDto.getDefinition);
+        storedLabel.setDefinition(labelDto.getDefinition());
         labelRepository.save(storedLabel);
     }
     public List<LabelDto> transferLabelListToDtoList(List<Label> labels){
@@ -80,40 +80,40 @@ public class LabelService {
         }
         return labelDtoList;
     }
-    public void assignLabelToMenu(Long id, Long ciModuleId) {
+    public void assignLabelToMenu(Long id, Long labelId) {
         var optionalMenu = menuRepository.findById(id);
-        var optionalLabel = labelRepository.findById(labelId);
+        var optionalLabel = labelRepository.findById(id);
 
         if(optionalMenu.isPresent() && optionalLabel.isPresent()) {
             var menu = optionalMenu.get();
             var label = optionalMenu.get();
 
-            menu.setLabel(label);
+            menu.setLabels((List<Label>) label);
             menuRepository.save(menu);
         } else {
             throw new RecordNotFoundException();
         }
     }
     public Label transferToLabel(LabelDto dto){
-        Label label = new Label();
+        var label = new Label();
 
         label.setId(dto.getId());
         label.setType(dto.getType());
         label.setWebLabel(dto.getWebLabel());
-        label.setApiParameter(dto.getApiPasrameter());
-        label.setDefinition(dto.getDefinition);
+        label.setApiParameter(dto.getApiParameter());
+        label.setDefinition(dto.getDefinition());
 
         return label;
     }
 
-    public static LabelDto transferToDto(Label label){
-        var dto = new LabelDto();
+    public LabelDto transferToDto(Label label){
+        LabelDto dto = new LabelDto();
 
-        dto.id = label.getId();
-        dto.type = label.getType();
-        dto.webLabel = label.getWebLabel();
-        dto.apiParameter = label.getApiParameter();
-        dto.definition = label.getDefinition();
+        dto.setId(label.getId());
+        dto.setType(label.getType());
+        dto.setWebLabel(label.getWebLabel());
+        dto.setApiParameter(label.getApiParameter());
+        dto.setDefinition(label.getDefinition());
 
         return dto;
     }

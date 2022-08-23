@@ -113,6 +113,9 @@ public class Menu {
     public void setMenuIngredients(Collection<MenuIngredient> menuIngredients) {
         this.menuIngredients = menuIngredients;
     }
+
+    public void setLabel(Menu label) {
+    }
 }
 
 

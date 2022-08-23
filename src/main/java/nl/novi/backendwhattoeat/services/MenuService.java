@@ -43,8 +43,6 @@ public class MenuService {
         this.labelService = labelService;
     }
 
-}
-
     public List<MenuDto> getAllMenus() {
         List<Menu> menuList = menuRepository.findAll();
         List<MenuDto> menuDtoList = new ArrayList<>();
@@ -134,7 +132,7 @@ public class MenuService {
         for(Menu menu : menus){
             MenuDto dto = transferToDto(menu);
             if(menu.getCuisineType() != null){
-                dto.setCuisineTypeDto(cuisineTypeService.transferToDto(menu.getCuisineType()))
+                dto.setCuisineTypeDto(cuisineTypeService.transferToDto(menu.getCuisineType()));
             }
             menuDtoList.add(dto);
         }
