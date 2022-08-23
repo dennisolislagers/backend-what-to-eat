@@ -5,12 +5,11 @@ import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.services.IngredientService;
 import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @RestController
@@ -27,39 +26,36 @@ public class IngredientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IngredientDto>> getAllIngredients(@RequestParam(value = "food_id", required = false) Optional<String> foodId) {
-        List<IngredientDto> dtos;
-        if(foodId.isEmpty()){
-            dtos = ingredientService.getAllIngredients();
-        }else{
-            dtos = ingredientService.findAllIngredientsByFoodId(foodId.get());
-        }
-        return ResponseEntity.ok().body(dtos);
+    public List<IngredientDto> getAllIngredients() {
+
+        List<IngredientDto> ingredients = ingredientService.getAllIngredients();
+
+        return ingredients;
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<IngredientDto> getIngredientById(@PathVariable("id") Long id) {
-        IngredientDto ingredient = ingredientService.getIngredientById(id);
-        return ResponseEntity.ok().body(ingredient);
+    public IngredientDto getIngredient(@PathVariable("id") Long id) {
+        IngredientDto ingredientDto = ingredientService.getIngredientById(id);
+        return ingredientDto;
+    }
+
+    @PostMapping
+    public IngredientDto addIngredient(@RequestBody IngredientDto dto) {
+        IngredientDto ingredient = ingredientService.addIngredient(dto);
+        return ingredient;
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteIngredient (@PathVariable("id") Long id) {ingredientService.deleteIngredient(id);
+    }
+    @PutMapping("{id}")
+    public IngredientDto updateIngredient(@PathVariable("id") Long id, @RequestBody IngredientDto dto) {
+        ingredientService.updateIngredient(id, dto);
+        return dto;
     }
 
     @GetMapping("menus/{ingredientId}")
-    public Collection<MenuDto> getMenuIngredientByIngredientId(@PathVariable("ingredientId") Long ingredientId){
+    public Collection<MenuDto> getMenuByIngredientId(@PathVariable("ingredientId") Long ingredientId){
         return menuIngredientService.getMenuIngredientByIngredientId(ingredientId);
-    }
-
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteIngredient(@PathVariable("id") Long id) {
-        ingredientService.deleteIngredient(id);
-
-        return ResponseEntity.noContent().build();
-    }
-    @PutMapping("{id}")
-    public ResponseEntity<Object> updateIngredient(@PathVariable Long id, @RequestBody IngredientDto newIngredient) {
-
-        IngredientDto dto = ingredientService.updateIngredient(id, newIngredient);
-
-        return ResponseEntity.ok().body(dto);
     }
 }

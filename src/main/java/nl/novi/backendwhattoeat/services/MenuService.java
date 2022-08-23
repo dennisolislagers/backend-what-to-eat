@@ -45,13 +45,8 @@ public class MenuService {
 
     public List<MenuDto> getAllMenus() {
         List<Menu> menuList = menuRepository.findAll();
-        List<MenuDto> menuDtoList = new ArrayList<>();
 
-        for(Menu menu : menuList) {
-            MenuDto dto = transferToDto(menu);
-            menuDtoList.add(dto);
-        }
-        return menuDtoList;
+        return transferMenuListToDtoList(menuList);
     }
 
     public MenuDto getMenuById(Long id) {
@@ -65,34 +60,18 @@ public class MenuService {
 
     public List<MenuDto> getAllMenusByTitle(String title) {
         List<Menu> menuList = menuRepository.findAllMenusByTitleEqualsIgnoreCase(title);
-        List<MenuDto> menuDtoList = new ArrayList<>();
 
-        for(Menu menu : menuList){
-            MenuDto dto = transferToDto(menu);
-            menuDtoList.add(dto);
-        }
-        return menuDtoList;
+        return transferMenuListToDtoList(menuList);
     }
 
     public List<MenuDto> getAllMenusByCuisineType (String cuisineType) {
         List<Menu> menuList = menuRepository.findAllMenusByCuisineTypeEqualsIgnoreCase(cuisineType);
-        List<MenuDto> menuDtoList = new ArrayList<>();
 
-        for(Menu menu : menuList){
-            MenuDto dto = transferToDto(menu);
-            menuDtoList.add(dto);
-        }
-        return menuDtoList;
+        return transferMenuListToDtoList(menuList);
     }
     public List<MenuDto> getAllMenusByLabel (String label) {
         List<Menu> menuList = menuRepository.findAllMenusByLabelEqualsIgnoreCase(label);
-        List<MenuDto> menuDtoList = new ArrayList<>();
-
-        for(Menu menu : menuList){
-            MenuDto dto = transferToDto(menu);
-            menuDtoList.add(dto);
-        }
-        return menuDtoList;
+        return transferMenuListToDtoList(menuList);
     }
 
     public MenuDto addMenu(MenuDto dto) {

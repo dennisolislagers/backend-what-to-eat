@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class CuisineType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long Id;
 

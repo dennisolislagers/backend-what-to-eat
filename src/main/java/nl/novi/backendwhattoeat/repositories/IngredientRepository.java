@@ -10,5 +10,4 @@ public interface IngredientRepository extends JpaRepository <Ingredient, Long> {
 
     List<Ingredient> findIngredientsByFoodIdEqualsIgnoreCase(String foodId);
 
-    ;
 }
