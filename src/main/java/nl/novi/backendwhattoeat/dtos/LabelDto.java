@@ -10,6 +10,14 @@ public class LabelDto {
 
     private MenuDto menuDto;
 
+    public MenuDto getMenuDto() {
+        return menuDto;
+    }
+
+    public void setMenuDto(MenuDto menuDto) {
+        this.menuDto = menuDto;
+    }
+
     public Long getId() {
         return Id;
     }

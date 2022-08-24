@@ -4,6 +4,7 @@ import nl.novi.backendwhattoeat.dtos.LabelDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Label;
 import nl.novi.backendwhattoeat.repositories.LabelRepository;
+import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,8 +16,14 @@ public class LabelService {
 
     private final LabelRepository labelRepository;
 
-    public LabelService(LabelRepository labelRepository) {
+    private final MenuRepository menuRepository;
+
+    private final MenuService menuService;
+
+    public LabelService(LabelRepository labelRepository, MenuRepository menuRepository, MenuService menuService) {
         this.labelRepository = labelRepository;
+        this.menuRepository = menuRepository;
+        this.menuService = menuService;
     }
 
     public List<LabelDto> getAllLabels() {
@@ -37,7 +44,18 @@ public class LabelService {
             throw new RecordNotFoundException("No label found");
         }
     }
+    public List<LabelDto> transferLabelListToDtoList(List<Label> labels){
+        List<LabelDto> labelDtoList = new ArrayList<>();
 
+        for(Label lbl : labels) {
+            LabelDto dto = transferToDto(lbl);
+            if(lbl.getMenu() != null){
+                dto.setMenuDto(menuService.transferToDto(lbl.getMenu()));
+            }
+            labelDtoList.add(dto);
+        }
+        return labelDtoList;
+    }
     public LabelDto addLabel(LabelDto labelDto) {
         labelRepository.save(transferToLabel(labelDto));
         return labelDto;
@@ -80,8 +98,23 @@ public class LabelService {
         dto.setWebLabel(label.getWebLabel());
         dto.setApiParameter(label.getApiParameter());
         dto.setDefinition(label.getDefinition());
-
+        if(label.getMenu() != null){
+            dto.setMenuDto(MenuService.transferToDto(label.getMenu()));
+        }
         return dto;
     }
+    public void assignMenuToLabel(Long id, Long menuId) {
+        var optionalLabel = labelRepository.findById(id);
+        var optionalMenu = menuRepository.findById(menuId);
 
+        if(optionalLabel.isPresent() && optionalMenu.isPresent()) {
+            var label = optionalLabel.get();
+            var menu = optionalMenu.get();
+
+            label.setMenu(menu);
+            labelRepository.save(label);
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
 }

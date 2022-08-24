@@ -3,7 +3,7 @@ package nl.novi.backendwhattoeat.services;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Menu;
-import nl.novi.backendwhattoeat.repositories.IngredientRepository;
+import nl.novi.backendwhattoeat.repositories.LabelRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import nl.novi.backendwhattoeat.repositories.PhotoRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,6 @@ public class MenuService {
     private final PhotoRepository photoRepository;
 
     private final PhotoService photoService;
-
 
     public MenuService(MenuRepository menuRepository, PhotoRepository photoRepository,
                        PhotoService photoService) {
@@ -106,7 +105,7 @@ public class MenuService {
             throw new RecordNotFoundException("geen menu gevonden");
         }
     }
-    public MenuDto transferToDto(Menu menu){
+    public static MenuDto transferToDto(Menu menu){
         MenuDto dto = new MenuDto();
 
         dto.setId(menu.getId());

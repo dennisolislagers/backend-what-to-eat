@@ -34,6 +34,10 @@ public class Menu {
     @JsonIgnore
     Collection<MenuIngredient> menuIngredients;
 
+    @OneToMany(mappedBy = "menu")
+    @JsonIgnore
+    List<Label> labels;
+
     public Long getId() {
         return id;
     }
@@ -138,6 +142,13 @@ public class Menu {
         this.menuIngredients = menuIngredients;
     }
 
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
 }
 
 

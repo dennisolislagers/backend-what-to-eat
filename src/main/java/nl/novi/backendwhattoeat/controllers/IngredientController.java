@@ -38,12 +38,6 @@ public class IngredientController {
         IngredientDto ingredientDto = ingredientService.getIngredientById(id);
         return ingredientDto;
     }
-//
-//    @GetMapping("{foodid}")
-//    public IngredientDto findAllIngredientsByFoodId(@PathVariable("foodid") String foodId){
-//        List<IngredientDto> ingredients = ingredientService.findAllIngredientsByFoodId(foodId);
-//        return ingredients;
-//    }
 
     @PostMapping
     public IngredientDto addIngredient(@RequestBody IngredientDto dto) {

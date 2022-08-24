@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("labels")
 public class LabelController {
     private final LabelService labelService;
 
@@ -17,7 +18,7 @@ public class LabelController {
     }
 
 
-    @GetMapping("/labels")
+    @GetMapping
     public List<LabelDto> getAllLabels() {
 
 
@@ -26,7 +27,7 @@ public class LabelController {
         return dtos;
     }
 
-    @GetMapping("/labels/{id}")
+    @GetMapping("{id}")
     public LabelDto getlabel(@PathVariable("id") Long id) {
 
         LabelDto labelDto = labelService.getLabel(id);
@@ -34,18 +35,23 @@ public class LabelController {
         return labelDto;
     }
 
-    @PostMapping("/labels")
+    @PostMapping
     public LabelDto addLabel(@RequestBody LabelDto dto) {
         LabelDto labelDto = labelService.addLabel(dto);
         return labelDto;
     }
 
-    @DeleteMapping("/labels/{id}")
+    @DeleteMapping("{id}")
     public void deleteLabel(@PathVariable("id") Long id) {
         labelService.deleteLabel(id);
     }
 
-    @PutMapping("/labels/{id}")
+    @PutMapping("{id}/{menuId}")
+    public void assignMenuToLabel(@PathVariable("id") Long id, @PathVariable("menuId") Long menuId) {
+        labelService.assignMenuToLabel(id, menuId);
+    }
+
+    @PutMapping("{id}")
     public LabelDto updateLabel(@PathVariable("id") Long id, @RequestBody LabelDto labelDto) {
         labelService.updateLabel(id, labelDto);
         return labelDto;

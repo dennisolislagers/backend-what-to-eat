@@ -1,5 +1,6 @@
 package nl.novi.backendwhattoeat.controllers;
 
+import nl.novi.backendwhattoeat.dtos.IdInputDto;
 import nl.novi.backendwhattoeat.dtos.IngredientDto;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.services.MenuIngredientService;
@@ -85,6 +86,11 @@ public class MenuController {
 
         return ResponseEntity.noContent().build();
 
+    }
+
+    @PutMapping("{id}/photo")
+    public void assignPhotoToMenu(@PathVariable("id") Long id, @RequestBody IdInputDto input) {
+        menuService.assignPhotoToMenu(id, input.id);
     }
 
     @PutMapping("{id}")

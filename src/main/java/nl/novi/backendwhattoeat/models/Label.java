@@ -15,6 +15,10 @@ public class Label {
     private String apiParameter;
     private String definition;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "menu_id")
+    private Menu menu;
+
     public Long getId() {
         return id;
     }
@@ -55,4 +59,11 @@ public class Label {
         this.definition = definition;
     }
 
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
 }
