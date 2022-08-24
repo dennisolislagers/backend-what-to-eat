@@ -39,6 +39,10 @@ public class MenuIngredientService {
             menu.setTitle(dto.getTitle());
             menu.setPortions(dto.getPortions());
             menu.setCalories(dto.getCalories());
+            menu.setCuisineType(dto.getCuisineType());
+            menu.setMealType(dto.getMealType());
+            menu.setDishType(dto.getDishType());
+            menu.setVegan(dto.getVegan());
             menu.setPeanutAllergy(dto.getPeanutAllergy());
             menu.setCowmilkAllergy(dto.getCowmilkAllergy());
             menu.setGlutenAllergy(dto.getGlutenAllergy());
@@ -59,8 +63,6 @@ public class MenuIngredientService {
             dto.setFoodId(ingredient.getFoodId());
             dto.setQuantity(ingredient.getQuantity());
             dto.setMeasure(ingredient.getMeasure());
-            dto.setWeight(ingredient.getWeight());
-            dto.setFood(ingredient.getFood());
             dto.setFoodCategory(ingredient.getFoodCategory());
 
             dtos.add(dto);

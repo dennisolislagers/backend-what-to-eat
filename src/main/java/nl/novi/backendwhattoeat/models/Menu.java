@@ -11,28 +11,28 @@ import java.util.List;
 @Entity
 public class Menu {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     Long id;
 
     private String title;
     private Integer portions;
     private Integer calories;
+    private String cuisineType;
+    private String mealType;
+    private String dishType;
+    private Boolean vegan;
     private Boolean peanutAllergy;
     private Boolean cowmilkAllergy;
     private Boolean glutenAllergy;
 
-    @OneToOne
-    CuisineType cuisineType;
 
-    @OneToMany (mappedBy = "menu")
-    @JsonIgnore
-    List <Label> labels;
+    @OneToOne
+    Photo photo;
 
     @OneToMany(mappedBy = "menu")
     @LazyCollection(LazyCollectionOption.FALSE)
     @JsonIgnore
     Collection<MenuIngredient> menuIngredients;
-
 
     public Long getId() {
         return id;
@@ -66,6 +66,38 @@ public class Menu {
         this.calories = calories;
     }
 
+    public String getCuisineType() {
+        return cuisineType;
+    }
+
+    public void setCuisineType(String cuisineType) {
+        this.cuisineType = cuisineType;
+    }
+
+    public String getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(String mealType) {
+        this.mealType = mealType;
+    }
+
+    public String getDishType() {
+        return dishType;
+    }
+
+    public void setDishType(String dishType) {
+        this.dishType = dishType;
+    }
+
+    public Boolean getVegan() {
+        return vegan;
+    }
+
+    public void setVegan(Boolean vegan) {
+        this.vegan = vegan;
+    }
+
     public Boolean getPeanutAllergy() {
         return peanutAllergy;
     }
@@ -90,20 +122,12 @@ public class Menu {
         this.glutenAllergy = glutenAllergy;
     }
 
-    public CuisineType getCuisineType() {
-        return cuisineType;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public void setCuisineType(CuisineType cuisineType) {
-        this.cuisineType = cuisineType;
-    }
-
-    public List<Label> getLabels() {
-        return labels;
-    }
-
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
 
     public Collection<MenuIngredient> getMenuIngredients() {
@@ -114,8 +138,6 @@ public class Menu {
         this.menuIngredients = menuIngredients;
     }
 
-    public void setLabel(Menu label) {
-    }
 }
 
 

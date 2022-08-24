@@ -3,10 +3,9 @@ package nl.novi.backendwhattoeat.services;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Menu;
-import nl.novi.backendwhattoeat.repositories.CuisineTypeRepository;
 import nl.novi.backendwhattoeat.repositories.IngredientRepository;
-import nl.novi.backendwhattoeat.repositories.LabelRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
+import nl.novi.backendwhattoeat.repositories.PhotoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -18,60 +17,66 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    private final CuisineTypeRepository cuisineTypeRepository;
+    private final PhotoRepository photoRepository;
 
-    private final CuisineTypeService cuisineTypeService;
+    private final PhotoService photoService;
 
-    private final IngredientRepository ingredientRepository;
 
-    private final IngredientService ingredientService;
-
-    private final LabelRepository labelRepository;
-
-    private final LabelService labelService;
-
-    public MenuService(MenuRepository menuRepository, CuisineTypeRepository cuisineTypeRepository,
-                       CuisineTypeService cuisineTypeService, IngredientRepository ingredientRepository,
-                       IngredientService ingredientService, LabelRepository labelRepository,
-                       LabelService labelService) {
+    public MenuService(MenuRepository menuRepository, PhotoRepository photoRepository,
+                       PhotoService photoService) {
         this.menuRepository = menuRepository;
-        this.cuisineTypeRepository = cuisineTypeRepository;
-        this.cuisineTypeService = cuisineTypeService;
-        this.ingredientRepository = ingredientRepository;
-        this.ingredientService = ingredientService;
-        this.labelRepository = labelRepository;
-        this.labelService = labelService;
+        this.photoRepository = photoRepository;
+        this.photoService = photoService;
     }
 
     public List<MenuDto> getAllMenus() {
         List<Menu> menuList = menuRepository.findAll();
-
         return transferMenuListToDtoList(menuList);
-    }
-
-    public MenuDto getMenuById(Long id) {
-        if (menuRepository.findById(id).isPresent()) {
-            Menu menu = menuRepository.findById(id).get();
-            return transferToDto(menu);
-        }else{
-            throw new RecordNotFoundException("geen menu gevonden");
-        }
     }
 
     public List<MenuDto> getAllMenusByTitle(String title) {
         List<Menu> menuList = menuRepository.findAllMenusByTitleEqualsIgnoreCase(title);
-
         return transferMenuListToDtoList(menuList);
     }
 
     public List<MenuDto> getAllMenusByCuisineType (String cuisineType) {
         List<Menu> menuList = menuRepository.findAllMenusByCuisineTypeEqualsIgnoreCase(cuisineType);
-
         return transferMenuListToDtoList(menuList);
     }
-    public List<MenuDto> getAllMenusByLabel (String label) {
-        List<Menu> menuList = menuRepository.findAllMenusByLabelEqualsIgnoreCase(label);
+
+    public List<MenuDto> getAllMenusByMealType (String mealType) {
+        List<Menu> menuList = menuRepository.findAllMenusByMealTypeEqualsIgnoreCase(mealType);
         return transferMenuListToDtoList(menuList);
+    }
+    public List<MenuDto> getAllMenusByDishType (String dishType) {
+        List<Menu> menuList = menuRepository.findAllMenusByDishTypeEqualsIgnoreCase(dishType);
+        return transferMenuListToDtoList(menuList);
+    }
+
+    public List <MenuDto> transferMenuListToDtoList(List<Menu> menus){
+        List<MenuDto> menuDtoList = new ArrayList<>();
+
+        for(Menu meal : menus){
+            MenuDto dto = transferToDto(meal);
+            if(meal.getPhoto() != null){
+                dto.setPhotoDto(photoService.transferToDto(meal.getPhoto()));
+            }
+            menuDtoList.add(dto);
+        }
+        return menuDtoList;
+    }
+
+    public MenuDto getMenuById(Long id) {
+        if (menuRepository.findById(id).isPresent()) {
+            Menu meal = menuRepository.findById(id).get();
+            MenuDto dto = transferToDto(meal);
+            if(meal.getPhoto() != null){
+                dto.setPhotoDto(photoService.transferToDto(meal.getPhoto()));
+            }
+            return transferToDto(meal);
+        }else{
+            throw new RecordNotFoundException("geen menu gevonden");
+        }
     }
 
     public MenuDto addMenu(MenuDto dto) {
@@ -98,26 +103,9 @@ public class MenuService {
             return transferToDto(menu1);
 
         } else {
-
             throw new RecordNotFoundException("geen menu gevonden");
-
         }
-
     }
-
-    public List <MenuDto> transferMenuListToDtoList(List<Menu> menus){
-        List<MenuDto> menuDtoList = new ArrayList<>();
-
-        for(Menu menu : menus){
-            MenuDto dto = transferToDto(menu);
-            if(menu.getCuisineType() != null){
-                dto.setCuisineTypeDto(cuisineTypeService.transferToDto(menu.getCuisineType()));
-            }
-            menuDtoList.add(dto);
-        }
-        return menuDtoList;
-    }
-
     public MenuDto transferToDto(Menu menu){
         MenuDto dto = new MenuDto();
 
@@ -125,9 +113,16 @@ public class MenuService {
         dto.setTitle(menu.getTitle());
         dto.setPortions(menu.getPortions());
         dto.setCalories(menu.getCalories());
+        dto.setCuisineType(menu.getCuisineType());
+        dto.setMealType(menu.getMealType());
+        dto.setDishType(menu.getDishType());
+        dto.setVegan(menu.getVegan());
         dto.setPeanutAllergy(menu.getPeanutAllergy());
         dto.setCowmilkAllergy(menu.getCowmilkAllergy());
         dto.setGlutenAllergy(menu.getGlutenAllergy());
+        if(menu.getPhoto() != null){
+            dto.setPhotoDto(PhotoService.transferToDto(menu.getPhoto()));
+        }
 
         return dto;
     }
@@ -139,29 +134,31 @@ public class MenuService {
         menu.setTitle(dto.getTitle());
         menu.setPortions(dto.getPortions());
         menu.setCalories(dto.getCalories());
+        menu.setCuisineType(dto.getCuisineType());
+        menu.setMealType(dto.getMealType());
+        menu.setDishType(dto.getDishType());
+        menu.setVegan(dto.getVegan());
         menu.setPeanutAllergy(dto.getPeanutAllergy());
         menu.setCowmilkAllergy(dto.getCowmilkAllergy());
         menu.setGlutenAllergy(dto.getGlutenAllergy());
 
         return menu;
     }
-    public void assignCuisineTypeToMenu(Long id, Long cuisineTypeId){
+
+    public void assignPhotoToMenu(Long id, Long photoId){
         var optionalMenu = menuRepository.findById(id);
-        var optionalCuisineType = cuisineTypeRepository.findById(cuisineTypeId);
+        var optionalPhoto = photoRepository.findById(photoId);
 
-        if(optionalMenu.isPresent() && optionalCuisineType.isPresent()) {
+        if(optionalMenu.isPresent() && optionalPhoto.isPresent()) {
             var menu = optionalMenu.get();
-            var cuisineType = optionalCuisineType.get();
+            var photo = optionalPhoto.get();
 
-            menu.setCuisineType(cuisineType);
+            menu.setPhoto(photo);
             menuRepository.save(menu);
         } else {
             throw new RecordNotFoundException();
         }
     }
-
-
-
 }
 
 

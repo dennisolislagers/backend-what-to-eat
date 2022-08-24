@@ -4,7 +4,6 @@ import nl.novi.backendwhattoeat.dtos.LabelDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Label;
 import nl.novi.backendwhattoeat.repositories.LabelRepository;
-import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,17 +13,10 @@ import java.util.Optional;
 @Service
 public class LabelService {
 
-
     private final LabelRepository labelRepository;
 
-    private final MenuRepository menuRepository;
-
-    private final MenuService menuService;
-
-    public LabelService(LabelRepository labelRepository, MenuRepository menuRepository, MenuService menuService) {
+    public LabelService(LabelRepository labelRepository) {
         this.labelRepository = labelRepository;
-        this.menuRepository = menuRepository;
-        this.menuService = menuService;
     }
 
     public List<LabelDto> getAllLabels() {
@@ -67,33 +59,7 @@ public class LabelService {
         storedLabel.setDefinition(labelDto.getDefinition());
         labelRepository.save(storedLabel);
     }
-    public List<LabelDto> transferLabelListToDtoList(List<Label> labels){
-        List<LabelDto> labelDtoList = new ArrayList<>();
 
-        for(Label lbl : labels) {
-            LabelDto dto = transferToDto(lbl);
-            if(lbl.getMenu() != null){
-                dto.setMenuDto(menuService.transferToDto(lbl.getMenu()));
-            }
-
-            labelDtoList.add(dto);
-        }
-        return labelDtoList;
-    }
-    public void assignLabelToMenu(Long id, Long labelId) {
-        var optionalMenu = menuRepository.findById(id);
-        var optionalLabel = labelRepository.findById(id);
-
-        if(optionalMenu.isPresent() && optionalLabel.isPresent()) {
-            var menu = optionalMenu.get();
-            var label = optionalMenu.get();
-
-            menu.setLabels((List<Label>) label);
-            menuRepository.save(menu);
-        } else {
-            throw new RecordNotFoundException();
-        }
-    }
     public Label transferToLabel(LabelDto dto){
         var label = new Label();
 

@@ -8,8 +8,7 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository <Menu, Long> {
 
     List<Menu> findAllMenusByTitleEqualsIgnoreCase(String title);
-
     List<Menu> findAllMenusByCuisineTypeEqualsIgnoreCase(String cuisineType);
-
-    List<Menu> findAllMenusByLabelEqualsIgnoreCase(String label);
+    List<Menu> findAllMenusByMealTypeEqualsIgnoreCase(String mealType);
+    List<Menu> findAllMenusByDishTypeEqualsIgnoreCase(String dishType);
 }

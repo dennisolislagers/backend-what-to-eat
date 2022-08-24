@@ -5,9 +5,15 @@ public class MenuDto {
     private String title;
     private Integer portions;
     private Integer calories;
+    private String cuisineType;
+    private String mealType;
+    private String dishType;
+    private Boolean vegan;
     private Boolean peanutAllergy;
     private Boolean cowmilkAllergy;
     private Boolean glutenAllergy;
+
+    private PhotoDto photoDto;
 
     public Long getId() {
         return id;
@@ -41,6 +47,38 @@ public class MenuDto {
         this.calories = calories;
     }
 
+    public String getCuisineType() {
+        return cuisineType;
+    }
+
+    public void setCuisineType(String cuisineType) {
+        this.cuisineType = cuisineType;
+    }
+
+    public String getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(String mealType) {
+        this.mealType = mealType;
+    }
+
+    public String getDishType() {
+        return dishType;
+    }
+
+    public void setDishType(String dishType) {
+        this.dishType = dishType;
+    }
+
+    public Boolean getVegan() {
+        return vegan;
+    }
+
+    public void setVegan(Boolean vegan) {
+        this.vegan = vegan;
+    }
+
     public Boolean getPeanutAllergy() {
         return peanutAllergy;
     }
@@ -65,6 +103,11 @@ public class MenuDto {
         this.glutenAllergy = glutenAllergy;
     }
 
-    public void setCuisineTypeDto(CuisineTypeDto transferToDto) {
+    public PhotoDto getPhotoDto() {
+        return photoDto;
+    }
+
+    public void setPhotoDto(PhotoDto photoDto) {
+        this.photoDto = photoDto;
     }
 }

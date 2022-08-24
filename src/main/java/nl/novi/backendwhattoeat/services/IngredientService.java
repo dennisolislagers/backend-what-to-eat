@@ -36,19 +36,6 @@ public class IngredientService {
         }
     }
 
-    public List<IngredientDto> findAllIngredientsByFoodId(String foodId) {
-        List<Ingredient> ingredientList = ingredientRepository.findIngredientsByFoodIdEqualsIgnoreCase(foodId);
-        List<IngredientDto> ingredientDtoList = new ArrayList<>();
-
-        for(Ingredient ingredient : ingredientList){
-            IngredientDto dto = transferToDto(ingredient);
-            ingredientDtoList.add(dto);
-        }
-        return ingredientDtoList;
-    }
-
-
-
     public IngredientDto addIngredient(IngredientDto ingredientDto) {
         Ingredient ingredient =  transferToIngredient(ingredientDto);
         ingredientRepository.save(ingredient);
@@ -65,12 +52,12 @@ public class IngredientService {
 
             Ingredient ingredient = ingredientRepository.findById(id).get();
 
-            Ingredient ingredient1 = transferToIngredient(ingredientDto);
-            ingredient1.setId(ingredient.getId());
+            Ingredient newIngredient= transferToIngredient(ingredientDto);
+            newIngredient.setId(ingredient.getId());
 
-            ingredientRepository.save(ingredient1);
+            ingredientRepository.save(newIngredient);
 
-            return transferToDto(ingredient1);
+            return transferToDto(newIngredient);
 
         } else {
             throw new RecordNotFoundException("Geen ingredient gevonden");
@@ -84,8 +71,6 @@ public class IngredientService {
         dto.foodId = ingredient.getFoodId();
         dto.quantity = ingredient.getQuantity();
         dto.measure = ingredient.getMeasure();
-        dto.weight = ingredient.getWeight();
-        dto.food = ingredient.getFood();
         dto.foodCategory = ingredient.getFoodCategory();
 
         return dto;
@@ -98,13 +83,8 @@ public class IngredientService {
         ingredient.setFoodId(dto.getFoodId());
         ingredient.setQuantity(dto.getQuantity());
         ingredient.setMeasure(dto.getMeasure());
-        ingredient.setWeight(dto.getWeight());
-        ingredient.setFood(dto.getFood());
         ingredient.setFoodCategory(dto.getFoodCategory());
 
         return ingredient;
     }
-
-
-
 }

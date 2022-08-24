@@ -1,24 +1,25 @@
 package nl.novi.backendwhattoeat.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Ingredient {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String foodId;
     private Integer quantity;
     private String measure;
-    private Integer weight;
-    private String food;
     private String foodCategory;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
+    @OneToMany(mappedBy = "menu")
+    @JsonIgnore
+    List<MenuIngredient> menuIngredients;
 
     public Long getId() {
         return id;
@@ -52,22 +53,6 @@ public class Ingredient {
         this.measure = measure;
     }
 
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Integer weight) {
-        this.weight = weight;
-    }
-
-    public String getFood() {
-        return food;
-    }
-
-    public void setFood(String food) {
-        this.food = food;
-    }
-
     public String getFoodCategory() {
         return foodCategory;
     }
@@ -76,11 +61,11 @@ public class Ingredient {
         this.foodCategory = foodCategory;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public List<MenuIngredient> getMenuIngredients() {
+        return menuIngredients;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setMenuIngredients(List<MenuIngredient> menuIngredients) {
+        this.menuIngredients = menuIngredients;
     }
 }

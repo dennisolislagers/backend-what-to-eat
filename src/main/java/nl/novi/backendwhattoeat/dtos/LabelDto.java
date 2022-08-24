@@ -50,10 +50,4 @@ public class LabelDto {
         this.definition = definition;
     }
 
-    public MenuDto getMenuDto(){
-        return menuDto;
-    }
-    public void setMenuDto(MenuDto menuDto) {
-        this.menuDto = menuDto;
-    }
 }

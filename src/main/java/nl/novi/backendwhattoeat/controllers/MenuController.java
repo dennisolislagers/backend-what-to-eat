@@ -32,20 +32,24 @@ public class MenuController {
                                                      Optional<String> title,
                                                      @RequestParam(value = "cuisine_type", required = false)
                                                      Optional<String> cuisineType,
-                                                     @RequestParam(value = "label", required = false)
-                                                     Optional<String> label)
+                                                     @RequestParam(value = "mealType", required = false)
+                                                     Optional<String> mealType,
+                                                     @RequestParam(value ="dishType", required = false)
+                                                     Optional<String> dishType)
                                                       {
         List<MenuDto> dtos;
-        if (title.isPresent() && cuisineType.isEmpty() && label.isEmpty()) {
+        if (title.isPresent() && cuisineType.isEmpty() && mealType.isEmpty() && dishType.isEmpty()) {
             dtos = menuService.getAllMenusByTitle (title.get());
-        } else if (title.isEmpty() && cuisineType.isPresent() && label.isEmpty()){
+        } else if (title.isEmpty() && cuisineType.isPresent() && mealType.isEmpty() && dishType.isEmpty()){
             dtos = menuService.getAllMenusByCuisineType(cuisineType.get());
-        } else if (title.isEmpty() && cuisineType.isEmpty() && label.isPresent()){
-            dtos = menuService.getAllMenusByLabel(label.get());
-        } else {
+        } else if (title.isEmpty() && cuisineType.isEmpty() && mealType.isPresent() && dishType.isEmpty()){
+            dtos = menuService.getAllMenusByMealType(mealType.get());
+        } else if (title.isEmpty() && cuisineType.isEmpty() && mealType.isEmpty() && dishType.isPresent()) {
+            dtos = menuService.getAllMenusByDishType(dishType.get());
+        } else{
             dtos = menuService.getAllMenus();
-        }
-        return ResponseEntity.ok().body(dtos);
+            }
+            return ResponseEntity.ok().body(dtos);
 
     }
 
