@@ -13,7 +13,7 @@ INSERT INTO ingredient (id, food_id, quantity, measure, food_category)
  VALUES (1, 'tomatoes', 1, 'pieces','vegetables'),
         (2, 'potatoes', 500, 'grams', 'vegetables'),
         (3, 'eggs', 2, 'pieces', 'diary'),
-        (4, 'salt', 1, 'theespoon', 'spices'),
+        (4, 'salt', 1, 'teaspoon', 'spices'),
         (5, 'ribs', 500, 'grams', 'meat');
 
 INSERT INTO newsletter (id, title, text, post_time)

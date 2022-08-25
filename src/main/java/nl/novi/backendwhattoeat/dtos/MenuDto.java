@@ -1,17 +1,17 @@
 package nl.novi.backendwhattoeat.dtos;
 
 public class MenuDto {
-    private Long id;
-    private String title;
-    private Integer portions;
-    private Integer calories;
-    private String cuisineType;
-    private String mealType;
-    private String dishType;
-    private Boolean vegan;
-    private Boolean peanutAllergy;
-    private Boolean cowmilkAllergy;
-    private Boolean glutenAllergy;
+    public Long id;
+    public String title;
+    public Integer portions;
+    public Integer calories;
+    public String cuisineType;
+    public String mealType;
+    public String dishType;
+    public Boolean vegan;
+    public Boolean peanutAllergy;
+    public Boolean cowmilkAllergy;
+    public Boolean glutenAllergy;
 
     private PhotoDto photoDto;
 
