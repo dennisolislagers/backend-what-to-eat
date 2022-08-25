@@ -3,7 +3,6 @@ package nl.novi.backendwhattoeat.services;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Menu;
-import nl.novi.backendwhattoeat.repositories.LabelRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import nl.novi.backendwhattoeat.repositories.PhotoRepository;
 import org.springframework.stereotype.Service;

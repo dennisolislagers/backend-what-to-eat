@@ -5,7 +5,9 @@ import nl.novi.backendwhattoeat.dtos.IngredientDto;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import nl.novi.backendwhattoeat.services.MenuService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +57,7 @@ public class MenuController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MenuDto> getMenu(@PathVariable("id") Long id) {
+    public ResponseEntity<MenuDto> getMenu(@PathVariable ("id") Long id) {
 
         MenuDto menu = menuService.getMenuById(id);
 

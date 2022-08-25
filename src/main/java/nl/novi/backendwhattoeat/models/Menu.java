@@ -38,6 +38,7 @@ public class Menu {
     @JsonIgnore
     List<Label> labels;
 
+
     public Long getId() {
         return id;
     }
