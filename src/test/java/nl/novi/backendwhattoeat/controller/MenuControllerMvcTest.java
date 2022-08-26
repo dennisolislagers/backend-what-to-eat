@@ -3,21 +3,25 @@ package nl.novi.backendwhattoeat.controller;
 import nl.novi.backendwhattoeat.controllers.MenuController;
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.security.JwtService;
+import nl.novi.backendwhattoeat.services.CustomUserDetailsService;
+import nl.novi.backendwhattoeat.services.MenuIngredientService;
 import nl.novi.backendwhattoeat.services.MenuService;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static java.lang.Boolean.*;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
+@RunWith(SpringRunner.class)
 @WebMvcTest (MenuController.class)
 class MenuControllerMvcTest {
     
@@ -29,6 +33,13 @@ class MenuControllerMvcTest {
 
     @MockBean
     JwtService jwtService;
+
+    @MockBean
+    CustomUserDetailsService customUserDetailsService;
+
+    @MockBean
+    MenuIngredientService menuIngredientService;
+
 
     @Test
     @WithMockUser(roles="ADMIN")
@@ -43,9 +54,9 @@ class MenuControllerMvcTest {
                 md.mealType = "dinner";
                 md.dishType = "side dish";
                 md.vegan = TRUE;
-                md.peanutAllergy = FALSE;
-                md.cowmilkAllergy = FALSE;
-                md.glutenAllergy = FALSE;
+                md.peanutAllergy = TRUE;
+                md.cowmilkAllergy = TRUE;
+                md.glutenAllergy = TRUE;
 
                 Mockito.when(menuService.getMenuById(1L)).thenReturn(md);
 
@@ -65,6 +76,6 @@ class MenuControllerMvcTest {
                         .andExpect(MockMvcResultMatchers.jsonPath("$.vegan", is(TRUE)))
                         .andExpect(MockMvcResultMatchers.jsonPath("$.peanutAllergy", is(TRUE)))
                         .andExpect(MockMvcResultMatchers.jsonPath("$.cowmilkAllergy", is(TRUE)))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$.glutenAlleregy", is(TRUE)));
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.glutenAllergy", is(TRUE)));
     }
 }
