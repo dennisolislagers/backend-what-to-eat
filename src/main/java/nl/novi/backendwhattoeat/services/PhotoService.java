@@ -4,6 +4,7 @@ import nl.novi.backendwhattoeat.dtos.PhotoDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
 import nl.novi.backendwhattoeat.models.Photo;
 import nl.novi.backendwhattoeat.repositories.PhotoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.Optional;
 
 @Service
 public class PhotoService {
+
+    @Autowired
     private PhotoRepository photoRepository;
 
     public List<PhotoDto> getAllPhotos() {
@@ -39,18 +42,6 @@ public class PhotoService {
         photoRepository.deleteById(id);
     }
 
-    public void updatePhoto (Long id, PhotoDto photoDto){
-        if(!photoRepository.existsById(id)){
-            throw new RecordNotFoundException("No photo found");
-        }
-        Photo storedPhoto = photoRepository.findById(id).orElse(null);
-        storedPhoto.setId(photoDto.getId());
-        storedPhoto.setTitle(photoDto.getTitle());
-        storedPhoto.setFileName(photoDto.getFileName());
-        storedPhoto.setImageSize(photoDto.getImageSize());
-        storedPhoto.setDimensions(photoDto.getDimensions());
-        photoRepository.save(storedPhoto);
-    }
     public static PhotoDto transferToDto(Photo photo){
         var dto = new PhotoDto();
 

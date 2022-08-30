@@ -1,5 +1,6 @@
 package nl.novi.backendwhattoeat.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -7,16 +8,15 @@ import javax.persistence.*;
 public class Label {
 
     @Id
-    @GeneratedValue
-    Long id;
-
-    private String type;
-    private String webLabel;
-    private String apiParameter;
-    private String definition;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
+    public String type;
+    public String webLabel;
+    public String apiParameter;
+    public String definition;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_id")
+    @JsonIgnore
     private Menu menu;
 
     public Long getId() {

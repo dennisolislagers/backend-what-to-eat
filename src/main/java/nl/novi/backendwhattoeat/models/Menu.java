@@ -10,10 +10,10 @@ import java.util.List;
 
 @Entity
 public class Menu {
-    @Id
-    @GeneratedValue
-    Long id;
 
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    public Long id;
     private String title;
     private Integer portions;
     private Integer calories;
@@ -35,9 +35,8 @@ public class Menu {
     Collection<MenuIngredient> menuIngredients;
 
     @OneToMany(mappedBy = "menu")
-    @JsonIgnore
-    List<Label> labels;
 
+    private List<Label> labels;
 
     public Long getId() {
         return id;

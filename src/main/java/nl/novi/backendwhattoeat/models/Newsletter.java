@@ -12,9 +12,6 @@ public class Newsletter {
     private String text;
     private String postTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_username", referencedColumnName = "username")
-    private User user;
 
     public Long getId() {
         return id;
@@ -47,14 +44,5 @@ public class Newsletter {
     public void setPostTime(String postTime) {
         this.postTime = postTime;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
 
 }

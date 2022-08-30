@@ -1,7 +1,7 @@
-INSERT INTO users (username, password, email, enabled)
- VALUES ('dennis', '$2a$12$UCRRvxXxgmQCu.ePVkh1RudePmxuamzxOK9rKiQyZ2snp.NaBdvmy', 'dennis@hotmail.com', TRUE),
-        ('iris', '$2a$12$3OO.Q6jXqHVK1zJvAqEit.4k4En0Lf2bLadIZn4cd/kVl.XDSnAjC', 'iris@gmail.com', TRUE),
-        ('sjuul', '$2a$12$RONwhcbHcBNZYUkYuglRNeuk7MKp6V0LpRsPNVd5FmUgHepYkTr6C', 'sjuulke@hotmail.com', TRUE);
+INSERT INTO users (username, password, email, apikey, enabled)
+ VALUES ('dennis', '$2a$12$UCRRvxXxgmQCu.ePVkh1RudePmxuamzxOK9rKiQyZ2snp.NaBdvmy','5DthG9pdr5T1kjhFRT2' ,'dennis@hotmail.com', TRUE),
+        ('iris', '$2a$12$3OO.Q6jXqHVK1zJvAqEit.4k4En0Lf2bLadIZn4cd/kVl.XDSnAjC', '4kJld0vGT9T7KjhDsA3', 'iris@gmail.com', TRUE),
+        ('sjuul', '$2a$12$RONwhcbHcBNZYUkYuglRNeuk7MKp6V0LpRsPNVd5FmUgHepYkTr6C', '3PLcg6lPF9T4PiUvFw7', 'sjuulke@hotmail.com', TRUE);
 
 
 INSERT INTO menu (id, title, portions, calories, cuisine_type, meal_type, dish_type, vegan, peanut_allergy, cowmilk_allergy, gluten_allergy)

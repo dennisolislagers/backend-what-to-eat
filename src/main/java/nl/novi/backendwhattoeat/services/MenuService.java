@@ -2,7 +2,9 @@ package nl.novi.backendwhattoeat.services;
 
 import nl.novi.backendwhattoeat.dtos.MenuDto;
 import nl.novi.backendwhattoeat.exceptions.RecordNotFoundException;
+import nl.novi.backendwhattoeat.models.Label;
 import nl.novi.backendwhattoeat.models.Menu;
+import nl.novi.backendwhattoeat.repositories.LabelRepository;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import nl.novi.backendwhattoeat.repositories.PhotoRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MenuService {
@@ -20,11 +23,18 @@ public class MenuService {
 
     private final PhotoService photoService;
 
+    private final LabelRepository labelRepository;
+
+    private final LabelService labelService;
+
+
     public MenuService(MenuRepository menuRepository, PhotoRepository photoRepository,
-                       PhotoService photoService) {
+                       PhotoService photoService, LabelRepository labelRepository, LabelService labelService) {
         this.menuRepository = menuRepository;
         this.photoRepository = photoRepository;
         this.photoService = photoService;
+        this.labelRepository = labelRepository;
+        this.labelService = labelService;
     }
 
     public List<MenuDto> getAllMenus() {
@@ -32,9 +42,15 @@ public class MenuService {
         return transferMenuListToDtoList(menuList);
     }
 
-    public List<MenuDto> getAllMenusByTitle(String title) {
-        List<Menu> menuList = menuRepository.findAllMenusByTitleEqualsIgnoreCase(title);
-        return transferMenuListToDtoList(menuList);
+    public MenuDto getMenuByTitle(String title) {
+        Optional <Menu> menu = menuRepository.findMenuByTitleEqualsIgnoreCase(title);
+        if(menu.isPresent()){
+            MenuDto dto = transferToDto(menu.get());
+            return dto;
+        } else {
+            throw new RecordNotFoundException("geen menu gevonden");
+        }
+
     }
 
     public List<MenuDto> getAllMenusByCuisineType (String cuisineType) {
@@ -77,33 +93,18 @@ public class MenuService {
         }
     }
 
-    public MenuDto addMenu(MenuDto dto) {
-        Menu menu = transferToMenu(dto);
+    public MenuDto addMenu(MenuDto menuDto) {
+        Menu menu = transferToMenu(menuDto);
         menuRepository.save(menu);
         return transferToDto(menu);
     }
+
 
     public void deleteMenu(@RequestBody Long id) {
         menuRepository.deleteById(id);
     }
 
-    public MenuDto updateMenu(Long id, MenuDto inputDto) {
 
-        if (menuRepository.findById(id).isPresent()){
-
-            Menu menu = menuRepository.findById(id).get();
-
-            Menu menu1 = transferToMenu(inputDto);
-            menu1.setId(menu.getId());
-
-            menuRepository.save(menu1);
-
-            return transferToDto(menu1);
-
-        } else {
-            throw new RecordNotFoundException("geen menu gevonden");
-        }
-    }
     public static MenuDto transferToDto(Menu menu){
         MenuDto dto = new MenuDto();
 
@@ -152,6 +153,20 @@ public class MenuService {
             var photo = optionalPhoto.get();
 
             menu.setPhoto(photo);
+            menuRepository.save(menu);
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+    public void assignLabelToMenu(Long id, Long labelId){
+        var optionalMenu = menuRepository.findById(id);
+        var optionalLabel = labelRepository.findById(labelId);
+
+        if(optionalMenu.isPresent() && optionalLabel.isPresent()) {
+            var menu = optionalMenu.get();
+            var label = optionalLabel.get();
+
+            menu.setLabels((List<Label>) label);
             menuRepository.save(menu);
         } else {
             throw new RecordNotFoundException();

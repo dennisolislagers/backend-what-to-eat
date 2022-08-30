@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("labels")
 public class LabelController {
+
     private final LabelService labelService;
 
     @Autowired
@@ -28,17 +29,17 @@ public class LabelController {
     }
 
     @GetMapping("{id}")
-    public LabelDto getlabel(@PathVariable("id") Long id) {
+    public LabelDto getLabelById(@PathVariable("id") Long id) {
 
-        LabelDto labelDto = labelService.getLabel(id);
+        LabelDto labelDto = labelService.getLabelById(id);
 
         return labelDto;
     }
 
     @PostMapping
-    public LabelDto addLabel(@RequestBody LabelDto dto) {
-        LabelDto labelDto = labelService.addLabel(dto);
-        return labelDto;
+    public LabelDto addLabel(@RequestBody LabelDto labelDto) {
+        LabelDto newLabel = labelService.addLabel(labelDto);
+        return newLabel;
     }
 
     @DeleteMapping("{id}")
@@ -46,14 +47,4 @@ public class LabelController {
         labelService.deleteLabel(id);
     }
 
-    @PutMapping("{id}/{menuId}")
-    public void assignMenuToLabel(@PathVariable("id") Long id, @PathVariable("menuId") Long menuId) {
-        labelService.assignMenuToLabel(id, menuId);
-    }
-
-    @PutMapping("{id}")
-    public LabelDto updateLabel(@PathVariable("id") Long id, @RequestBody LabelDto labelDto) {
-        labelService.updateLabel(id, labelDto);
-        return labelDto;
-    }
 }

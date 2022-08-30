@@ -15,6 +15,8 @@ public class MenuDto {
 
     private PhotoDto photoDto;
 
+    private LabelDto labelDto;
+
     public Long getId() {
         return id;
     }
@@ -109,5 +111,13 @@ public class MenuDto {
 
     public void setPhotoDto(PhotoDto photoDto) {
         this.photoDto = photoDto;
+    }
+
+    public LabelDto getLabelDto() {
+        return labelDto;
+    }
+
+    public void setLabelDto(LabelDto labelDto) {
+        this.labelDto = labelDto;
     }
 }

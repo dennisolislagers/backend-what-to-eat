@@ -2,11 +2,11 @@ package nl.novi.backendwhattoeat.dtos;
 
 public class LabelDto {
 
-    public Long Id;
+    public Long id;
     public String type;
     public String webLabel;
-    private String apiParameter;
-    private String definition;
+    public String apiParameter;
+    public String definition;
 
     private MenuDto menuDto;
 
@@ -19,11 +19,11 @@ public class LabelDto {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getType() {

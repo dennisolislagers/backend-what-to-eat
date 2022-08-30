@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("photos")
 public class PhotoController {
     private final PhotoService photoService;
 
@@ -16,7 +18,7 @@ public class PhotoController {
     }
 
 
-    @GetMapping("/photos")
+    @GetMapping
     public List<PhotoDto> getAllPhotos() {
 
         List<PhotoDto> dtos = photoService.getAllPhotos();
@@ -24,28 +26,23 @@ public class PhotoController {
         return dtos;
     }
 
-    @GetMapping("/photos/{id}")
-    public PhotoDto getRemotecontroller(@PathVariable("id") Long id) {
+    @GetMapping("{id}")
+    public PhotoDto getPhotoById(@PathVariable("id") Long id) {
 
         PhotoDto dto = photoService.getPhoto(id);
 
         return dto;
     }
 
-    @PostMapping("/photos")
-    public PhotoDto addPhoto(@RequestBody PhotoDto dto) {
-       PhotoDto dto1 = photoService.addPhoto(dto);
-        return dto1;
+    @PostMapping
+    public PhotoDto addPhoto(@RequestBody PhotoDto photoDto) {
+       PhotoDto dto = photoService.addPhoto(photoDto);
+        return dto;
     }
 
-    @DeleteMapping("/photos/{id}")
+    @DeleteMapping("{id}")
     public void deletePhoto(@PathVariable("id") Long id) {
         photoService.deletePhoto(id);
     }
 
-    @PutMapping("/photos/{id}")
-    public PhotoDto updateMenu(@PathVariable("id") Long id, @RequestBody PhotoDto dto) {
-        photoService.updatePhoto(id, dto);
-        return dto;
-    }
 }

@@ -9,9 +9,8 @@ import java.util.List;
 public class Ingredient {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String foodId;
     private Integer quantity;
     private String measure;
