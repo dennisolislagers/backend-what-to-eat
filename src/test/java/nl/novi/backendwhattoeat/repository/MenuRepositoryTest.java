@@ -1,39 +1,41 @@
 package nl.novi.backendwhattoeat.repository;
 
-
 import nl.novi.backendwhattoeat.models.Menu;
 import nl.novi.backendwhattoeat.repositories.MenuRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@ContextConfiguration
 public class MenuRepositoryTest {
 
 //    @Autowired
-//    private TestEntityManager testEntityManager;
+//    TestEntityManager entityManager;
 //
 //    @Autowired
-//    private MenuRepository menuRepository;
+//    MenuRepository menuRepository;
 //
 //    @Test
-//    void testFindMenuById(){
+//    public void findAllMenusTest(){
+//        Menu menu = new Menu();
+//        menu.setTitle("good testing");
+//        menu.setGlutenAllergy(true);
+//        Menu menu1 = new Menu();
+//        menu1.setTitle("bad testing");
+//        menu1.setGlutenAllergy(true);
+//        Menu menu2 = menu;
+//        entityManager.persist(menu);
+//        entityManager.persist(menu1);
+//        entityManager.flush();
 //
-//            Menu menu = new Menu ();
-//            testEntityManager.persist(menu);
-//            testEntityManager.flush();
+//        Optional<Menu> actual = menuRepository.findMenuByTitleEqualsIgnoreCase("good testing");
 //
-//            Menu found = menuRepository.findById(Long.valueOf(1));
-//
-//            String expected = "sajoer boontjes";
-//            String actual = found.getTitle();
-//
-//            assertEquals (expected, actual);
+//        assertEquals("good testing", actual.get().getTitle());
 //    }
+
 }

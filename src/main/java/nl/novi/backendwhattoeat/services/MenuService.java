@@ -53,6 +53,7 @@ public class MenuService {
 
     }
 
+
     public List<MenuDto> getAllMenusByCuisineType (String cuisineType) {
         List<Menu> menuList = menuRepository.findAllMenusByCuisineTypeEqualsIgnoreCase(cuisineType);
         return transferMenuListToDtoList(menuList);

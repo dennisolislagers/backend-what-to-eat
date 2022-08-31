@@ -92,5 +92,8 @@ public class MenuController {
     public void assignPhotoToMenu(@PathVariable("id") Long id, @RequestBody IdInputDto input) {
         menuService.assignPhotoToMenu(id, input.id);
     }
-
+    @PutMapping("{id}/label")
+    public void assignLabelToMenu(@PathVariable("id") Long id, @RequestBody IdInputDto input) {
+        menuService.assignLabelToMenu(id, input.id);
+    }
     }
