@@ -5,31 +5,31 @@ INSERT INTO users (username, password, email, apikey, enabled)
 
 
 INSERT INTO menu (id, title, portions, calories, cuisine_type, meal_type, dish_type, vegan, peanut_allergy, cowmilk_allergy, gluten_allergy)
- VALUES (1, 'sajoer boontjes', 4, 850, 'asian', 'dinner', 'side dish', TRUE, TRUE, TRUE, TRUE),
-        (2, 'kippenvleugeltjes', 8, 630, 'chinese', 'dinner', 'main dish', FALSE, FALSE, FALSE, FALSE),
-        (3, 'spek met eieren', 1, 490, 'british', 'breakfast', 'main dish', FALSE, TRUE, FALSE, FALSE);
+ VALUES (1001, 'sajoer boontjes', 4, 850, 'asian', 'dinner', 'side dish', TRUE, TRUE, TRUE, TRUE),
+        (1002, 'kippenvleugeltjes', 8, 630, 'chinese', 'dinner', 'main dish', FALSE, FALSE, FALSE, FALSE),
+        (1003, 'spek met eieren', 1, 490, 'british', 'breakfast', 'main dish', FALSE, TRUE, FALSE, FALSE);
 
 INSERT INTO ingredient (id, food_id, quantity, measure, food_category)
- VALUES (1, 'tomatoes', 1, 'pieces','vegetables'),
-        (2, 'potatoes', 500, 'grams', 'vegetables'),
-        (3, 'eggs', 2, 'pieces', 'diary'),
-        (4, 'salt', 1, 'teaspoon', 'spices'),
-        (5, 'ribs', 500, 'grams', 'meat');
+ VALUES (1001, 'tomatoes', 1, 'pieces','vegetables'),
+        (1002, 'potatoes', 500, 'grams', 'vegetables'),
+        (1003, 'eggs', 2, 'pieces', 'diary'),
+        (1004, 'salt', 1, 'teaspoon', 'spices'),
+        (1005, 'ribs', 500, 'grams', 'meat');
 
 INSERT INTO newsletter (id, title, text, post_time)
- VALUES (1, 'nieuwsbrief week 1', 'Deze week staat de italiaanse keuken centraal met als basis de zoete italiaanse tomaat. De Italiaanse tomaat staat erom bekend dat hij lekker zoet en sapping is en dat je er veel verrassende gerechten mee kunt maken.'
+ VALUES (1001, 'nieuwsbrief week 1', 'Deze week staat de italiaanse keuken centraal met als basis de zoete italiaanse tomaat. De Italiaanse tomaat staat erom bekend dat hij lekker zoet en sapping is en dat je er veel verrassende gerechten mee kunt maken.'
                                     , '2022-01-02'),
-        (2, 'nieuwsbrief week 2', 'Deze week speciale gerechten van restaurant de gouden balg uit utrecht.' ||
+        (1002, 'nieuwsbrief week 2', 'Deze week speciale gerechten van restaurant de gouden balg uit utrecht.' ||
                                   ' Deze week neemt chefkok Piet Brussels de tijd om speciale gerechten te maken'
                                     , '2022-01-09');
 
 INSERT INTO menu_ingredient (menu_id, ingredient_id)
- VALUES (3, 5),
-        (2, 4),
-        (1, 1),
-        (1, 4),
-        (2, 3),
-        (3, 2);
+ VALUES (1003, 1005),
+        (1002, 1004),
+        (1001, 1001),
+        (1001, 1004),
+        (1002, 1003),
+        (1003, 1002);
 
 INSERT INTO authorities (username, authority)
 VALUES  ('sjuul', 'ROLE_USER'),

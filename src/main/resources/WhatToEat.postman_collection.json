@@ -1,0 +1,718 @@
+{
+	"info": {
+		"_postman_id": "9daf202d-052f-43db-94d7-c8c5b334422b",
+		"name": "WhatToEat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20365984"
+	},
+	"item": [
+		{
+			"name": "WhatToEat",
+			"item": [
+				{
+					"name": "localhost:8080/authenticate",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "dennis",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dennis",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dennis\",\n    \"password\" : \"dennis\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/authenticate",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/authenticate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW5uaXMiLCJleHAiOjE2NjI2MzI5OTcsImlhdCI6MTY2MTc2ODk5N30.mhd6u0DPJYNMRM85sbgkTBLdWvPqko5xQRe89Htyf1c",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dennis\",\n    \"password\" : \"dennis\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/authenticated",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authenticated"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW5uaXMiLCJleHAiOjE2NjI2MjQ3MjQsImlhdCI6MTY2MTc2MDcyNH0.EGzKNN_VXJrc8KMKDY6HvhkEEOVa-2c9efWCouWjcYg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/users/dennis/authorities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/dennis/authorities",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"dennis",
+								"authorities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/users/dennis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/dennis",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"dennis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW5uaXMiLCJleHAiOjE2NjI2MjQ3MjQsImlhdCI6MTY2MTc2MDcyNH0.EGzKNN_VXJrc8KMKDY6HvhkEEOVa-2c9efWCouWjcYg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users/iris",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"iris"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW5uaXMiLCJleHAiOjE2NjI2MjQ3MjQsImlhdCI6MTY2MTc2MDcyNH0.EGzKNN_VXJrc8KMKDY6HvhkEEOVa-2c9efWCouWjcYg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"harrie\",\n    \"password\" : \"harrie\",\n    \"enabled\" : \"TRUE\",\n    \"apikey\" : \"hallo\",\n    \"email\" : \"harrie@harrie.me\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW5uaXMiLCJleHAiOjE2NjI2MjQ3MjQsImlhdCI6MTY2MTc2MDcyNH0.EGzKNN_VXJrc8KMKDY6HvhkEEOVa-2c9efWCouWjcYg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\" : \"dennis\",\n    \"password\" : \"dennis\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users/dennis",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"dennis"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/menus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/menus",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/menus/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/menus/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menus",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/menus/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/menus/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menus",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/menus",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     {\n        \"title\": \"spare ribs\",\n        \"portions\": 6,\n        \"calories\": 840,\n        \"cuisineType\": \"american\",\n        \"mealType\": \"dinner\",\n        \"dishType\": \"main dish\",\n        \"vegan\": false,\n        \"peanutAllergy\": false,\n        \"cowmilkAllergy\": false,\n        \"glutenAllergy\": false,\n        \"photoDto\": null\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/menus",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"menus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/newsletters",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW5uaXMiLCJleHAiOjE2NjI2MzI5OTcsImlhdCI6MTY2MTc2ODk5N30.mhd6u0DPJYNMRM85sbgkTBLdWvPqko5xQRe89Htyf1c",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/newsletters",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/newsletters/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/newsletters/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/newsletters/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/newsletters/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/newsletters",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW5uaXMiLCJleHAiOjE2NjI2NDc3OTAsImlhdCI6MTY2MTc4Mzc5MH0.jT9ZfILdR9pZ0s7hKU3cqdwURLcumFhuYQgnUyaXbIc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"title\": \"nieuwsbrief week 3\",\n        \"text\": \"Deze week stoofpotjes\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/newsletters",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"newsletters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/ingredients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ingredients",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ingredients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/ingredients/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ingredients/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ingredients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/ingredients/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ingredients/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ingredients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/ingredients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/ingredients",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ingredients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/photos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/photos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"photos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/photos/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/photos/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"photos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/photos/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/photos/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"photos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/photos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n        \"title\": \"biefstuk\",\n        \"fileName\": \"saj_boo_12\",\n        \"imageSize\": \"small\",\n        \"dimensions\": \"200x200\"\n    },",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/photos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"photos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/labels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/labels",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/labels/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/labels/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"labels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/labels/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/labels/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"labels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/labels",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n        \n        \"type\": \"Diet\",\n        \"webLabel\": \"fiber\",\n        \"apiParameter\": \"fiber\",\n        \"definition\": \"protein/fat/carb values in 15/35/50 ratio\",\n        \"menuDto\": null\n        \n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/labels",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"labels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -58,14 +58,14 @@ public class MenuController {
         return ResponseEntity.ok().body(menu);
 
     }
-    @GetMapping("{title}")
-    public ResponseEntity<MenuDto> getMenuByTitle(@PathVariable ("title") String title) {
-
-        MenuDto menu = menuService.getMenuByTitle(title);
-
-        return ResponseEntity.ok().body(menu);
-
-    }
+//    @GetMapping("{title}")
+//    public ResponseEntity<MenuDto> getMenuByTitle(@PathVariable ("title") String title) {
+//
+//        MenuDto menu = menuService.getMenuByTitle(title);
+//
+//        return ResponseEntity.ok().body(menu);
+//
+//    }
 
 
     @GetMapping("ingredients/{menuId}")

@@ -42,16 +42,16 @@ public class MenuService {
         return transferMenuListToDtoList(menuList);
     }
 
-    public MenuDto getMenuByTitle(String title) {
-        Optional <Menu> menu = menuRepository.findMenuByTitleEqualsIgnoreCase(title);
-        if(menu.isPresent()){
-            MenuDto dto = transferToDto(menu.get());
-            return dto;
-        } else {
-            throw new RecordNotFoundException("geen menu gevonden");
-        }
-
-    }
+//    public MenuDto getMenuByTitle(String title) {
+//        Optional <Menu> menu = menuRepository.findMenuByTitleEqualsIgnoreCase(title);
+//        if(menu.isPresent()){
+//            MenuDto dto = transferToDto(menu.get());
+//            return dto;
+//        } else {
+//            throw new RecordNotFoundException("geen menu gevonden");
+//        }
+//
+//    }
 
 
     public List<MenuDto> getAllMenusByCuisineType (String cuisineType) {
